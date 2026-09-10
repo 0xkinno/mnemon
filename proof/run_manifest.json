@@ -48,11 +48,11 @@
     "python experiments/app_evidence.py",
     "npm run build"
   ],
-  "git_commit": "04f2371a6da0169bd6e6075e125f1ee558c59949",
+  "git_commit": "3eda59505b9fcf7321c12decb00e5d309544a84a",
   "os": "Windows-10-10.0.21996-SP0",
   "python": "3.12.10",
   "sibyl_package_version": "0.8.1",
   "test_command": "python -m pytest -q -p no:cacheprovider",
   "test_passed": true,
-  "test_result": "5 passed in 1.70s"
+  "test_result": "5 passed in 1.45s"
 }
