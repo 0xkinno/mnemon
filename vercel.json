@@ -5,6 +5,13 @@
   "installCommand": "echo \"MNEMON: static surface, no dependencies to install\"",
   "outputDirectory": "app",
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/product", "destination": "/index.html" },
+    { "source": "/demo", "destination": "/index.html" },
+    { "source": "/evidence", "destination": "/index.html" },
+    { "source": "/architecture", "destination": "/index.html" },
+    { "source": "/docs", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -13,6 +20,10 @@
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
         { "key": "X-Frame-Options", "value": "DENY" }
       ]
+    },
+    {
+      "source": "/(index.html)?",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     }
   ]
 }

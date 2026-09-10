@@ -1,9 +1,10 @@
 /**
  * Regenerate the README assets (banner + 2x2 screenshot grid) from app/.
  *
- * The app is a static evidence surface, so the screenshots are a deterministic
- * render of app/index.html. This harness drives the bundled headless Chromium
- * over the DevTools protocol so every frame is captured at 2x and full height.
+ * The app is a routed static surface, so each screenshot is a deterministic
+ * render of one real route. This harness drives the bundled headless Chromium
+ * over the DevTools protocol, captures the viewport only (never the full
+ * scrollable page), and forces every screenshot to the exact same dimensions.
  *
  * Usage:  node scripts/shots.mjs
  * Override the browser with CHROME_HEADLESS_SHELL=/path/to/chrome-headless-shell
@@ -18,15 +19,16 @@ import WebSocket from "ws";
 const ROOT = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const SCALE = 2;
 
-// Every README frame is the same size: 1400x1000 CSS at 2x. The page is a flex
-// column with a pinned footer, so each state fills the frame exactly.
-const FRAME = { width: 1400, height: 1000 };
+// Every README screenshot is the same landscape frame: 1440x900 CSS at 2x, so
+// all four land at 2880x1800. Nothing is captured beyond the viewport, so no
+// frame can ever come out oversized or portrait.
+const FRAME = { width: 1440, height: 900 };
 const SHOTS = [
   { file: "banner.png", html: "banner.html", width: 1600, height: 520 },
-  { file: "screenshot-01.png", html: "index.html", query: "?focus=overview", ...FRAME },
-  { file: "screenshot-02.png", html: "index.html", query: "?state=contested&focus=contradiction", ...FRAME },
-  { file: "screenshot-03.png", html: "index.html", query: "?state=resolved&focus=evidence", ...FRAME },
-  { file: "screenshot-04.png", html: "index.html", query: "?state=deletion&focus=controls", ...FRAME },
+  { file: "screenshot-01.png", html: "index.html", hash: "#/", ...FRAME },
+  { file: "screenshot-02.png", html: "index.html", hash: "#/demo", ...FRAME },
+  { file: "screenshot-03.png", html: "index.html", hash: "#/evidence", ...FRAME },
+  { file: "screenshot-04.png", html: "index.html", hash: "#/architecture", ...FRAME },
 ];
 
 function findHeadlessShell() {
@@ -105,7 +107,7 @@ async function main() {
 
   const written = [];
   for (const shot of SHOTS) {
-    const url = pathToFileURL(join(ROOT, "app", shot.html)).href + (shot.query || "");
+    const url = pathToFileURL(join(ROOT, "app", shot.html)).href + (shot.hash || "");
     const { targetId } = await cdp.send("Target.createTarget", { url: "about:blank" });
     const { sessionId } = await cdp.send("Target.attachToTarget", { targetId, flatten: true });
     await cdp.send("Page.enable", {}, sessionId);
@@ -114,8 +116,9 @@ async function main() {
     const loaded = cdp.once("Page.loadEventFired");
     await cdp.send("Page.navigate", { url }, sessionId);
     await loaded;
-    await sleep(250);
-    const { data } = await cdp.send("Page.captureScreenshot", { format: "png", fromSurface: true }, sessionId);
+    await sleep(600);
+    const { data } = await cdp.send("Page.captureScreenshot",
+      { format: "png", fromSurface: true, captureBeyondViewport: false }, sessionId);
     const out = join(ROOT, "assets", shot.file);
     writeFileSync(out, Buffer.from(data, "base64"));
     written.push({ file: shot.file, size: `${shot.width * SCALE}x${shot.height * SCALE}` });

@@ -5,6 +5,8 @@
   "acp_job_id": "78185",
   "entity_key": "risk_verdict/protocol_x",
   "epoch_id": "acp-epoch-contested",
+  "sibyl_version": "0.8.1",
+  "contract_explorer": "https://sepolia.basescan.org/address/0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f",
   "acp": {
     "job_id": "78185",
     "offering": "independent_memory_adjudication",
@@ -66,5 +68,441 @@
       "base_resolution_anchor_present": true
     },
     "deletion_control_verified": true
+  },
+  "evidence_panel": [
+    {
+      "label": "Sibyl version",
+      "value": "sibyl-memory-client 0.8.1",
+      "detail": "WARM entities UNIQUE(tenant_id, category, name); COLD journal_events(id, tenant_id, ts, evaluated, acted, forward, extra)",
+      "artifact": "proof/source_verification.json",
+      "tone": "ok"
+    },
+    {
+      "label": "Experiment status",
+      "value": "5 passed in 1.45s",
+      "detail": "suite green on python 3.12.10; 31 artifacts hashed in proof/run_manifest.json",
+      "artifact": "proof/run_manifest.json",
+      "tone": "ok"
+    },
+    {
+      "label": "Race result",
+      "value": "20/20 trials CONTESTED",
+      "detail": "independent writers race the same entity and epoch; no trial silently settles on the last writer",
+      "artifact": "proof/race_matrix.json",
+      "tone": "warn"
+    },
+    {
+      "label": "Fresh-process result",
+      "value": "CONTESTED (pid 25048)",
+      "detail": "a separate interpreter re-reads the same memory and returns the same verdict",
+      "artifact": "proof/fresh_session.json",
+      "tone": "warn"
+    },
+    {
+      "label": "Deletion result",
+      "value": "UNWITNESSED / BLOCKED",
+      "detail": "removing the memory layer removes the ability to establish CLEAN (no current WARM claim)",
+      "artifact": "proof/delete_memory.json",
+      "tone": "block"
+    },
+    {
+      "label": "Tamper result",
+      "value": "INVALID",
+      "detail": "an altered claim is rejected before it can be acted on: current claim hash mismatch",
+      "artifact": "proof/tamper.json",
+      "tone": "block"
+    },
+    {
+      "label": "Integrity audit",
+      "value": "12/12 must-block cases hold",
+      "detail": "17 adversarial cases run against the real engine; audit_passed=true",
+      "artifact": "proof/final_integrity_audit.json",
+      "tone": "ok"
+    },
+    {
+      "label": "ACP job status",
+      "value": "COMPLETED (job 78185)",
+      "detail": "Virtuals ACP on base-mainnet; rejected=false; evaluator, provider and buyer binding re-checked on chain",
+      "artifact": "proof/acp_job_78185.json",
+      "tone": "ok"
+    },
+    {
+      "label": "Base transaction status",
+      "value": "receipt status 1 (block 46585270)",
+      "detail": "claim hash decoded from the anchor event matches the witnessed claim: true",
+      "artifact": "proof/base_transaction_verified.json",
+      "tone": "ok"
+    }
+  ],
+  "proof_index": [
+    {
+      "name": "proof/acp_arbitration.json",
+      "sha256": "d80efcc7affc9e4ea62f980b2373b9f071f9b95e63136fa5edddd521cbe5ba75",
+      "bytes": 1559
+    },
+    {
+      "name": "proof/acp_arbitration_failure.json",
+      "sha256": "d35abf7431220c906b589bda1e15f9fa49d7f6f2b125d8c5b8ba5cbda0c9bdd4",
+      "bytes": 2356
+    },
+    {
+      "name": "proof/acp_cold_result.json",
+      "sha256": "7eda82a6f7a1ab7a4bdd62b77aba72317c0a219ff6a398c9fc66ebb09681a9a5",
+      "bytes": 899
+    },
+    {
+      "name": "proof/acp_deliverable.json",
+      "sha256": "dc64b03c20801dd3aa11e83b2e4fa359ef2a245a6b6e83f889bb8d7aba49fa5f",
+      "bytes": 231
+    },
+    {
+      "name": "proof/acp_fresh_process.json",
+      "sha256": "8e41937672b2e6baaa6435c5f4aa7ab89025dbd678ed4b06c7a4b9cab7a094b1",
+      "bytes": 1822
+    },
+    {
+      "name": "proof/acp_job.json",
+      "sha256": "fb9c41e5284ee24514682aab94c3f215862ef2b18bc7de4194cf266bc9d5d725",
+      "bytes": 607
+    },
+    {
+      "name": "proof/acp_job_77954.json",
+      "sha256": "2a8e28b36f8c2c5e3f8996f8102d8ca36f26491282b292e73a0f04d61c18ac56",
+      "bytes": 3219
+    },
+    {
+      "name": "proof/acp_job_78154.json",
+      "sha256": "e75b43d1e33a80244e65ad6e1e05f72c3d4383996908b9eea9b4dada48bf18ea",
+      "bytes": 3794
+    },
+    {
+      "name": "proof/acp_job_78185.json",
+      "sha256": "46933eafa989560601b5076c5afaf44e383fb1dfabce67f8ba1d52823ed18b48",
+      "bytes": 4672
+    },
+    {
+      "name": "proof/acp_requirement.json",
+      "sha256": "b2a50c0b8eee530bd905394aedb6d95b8c531d54241d4f46b3a85b8e20799006",
+      "bytes": 428
+    },
+    {
+      "name": "proof/acp_result.json",
+      "sha256": "766593620fb1ae867d5738ab60660f617d76f3b7b37fd5bad10e61e72f188c74",
+      "bytes": 1931
+    },
+    {
+      "name": "proof/base_acp_resolution.json",
+      "sha256": "9c10c4e3e86ef0c894ebb3acecb18c6dc99531a7ee8eb865046853efacfa65e1",
+      "bytes": 1531
+    },
+    {
+      "name": "proof/base_deployment.json",
+      "sha256": "5a9aa7fda3b5b2b7512b032645ce5256d2548aa37ad9516468f3bd4cad40ce0a",
+      "bytes": 304
+    },
+    {
+      "name": "proof/base_transaction.json",
+      "sha256": "591fbc8054cc1d330501545a1bcc5f1b290f946257db8da7e415607fa9f6425e",
+      "bytes": 525
+    },
+    {
+      "name": "proof/base_transaction_verified.json",
+      "sha256": "12a68690a7535493675bdc439e4da7110f8edd74ceaf7787beee6c277c08efd3",
+      "bytes": 503
+    },
+    {
+      "name": "proof/benchmark.json",
+      "sha256": "42011d146ff44458c9f20430a7f847a3b33c06110c02b7c05ac8d6a730c76f5d",
+      "bytes": 823
+    },
+    {
+      "name": "proof/benchmark_stdout.txt",
+      "sha256": "6488afa9918609c98bf2dfb62c59cebfec7e582b942fc045a6a452b18212671b",
+      "bytes": 1652
+    },
+    {
+      "name": "proof/crash_output.json",
+      "sha256": "f5391714716d1317f3f12e2e989422b95d8ee6b704732f1bf9b08a25a834f522",
+      "bytes": 884
+    },
+    {
+      "name": "proof/delete_memory.json",
+      "sha256": "0800dd7a21476e37edfe17b32d49589d01a1d5a7b7b3a0cc09a1e61fd958bd52",
+      "bytes": 164
+    },
+    {
+      "name": "proof/DOMAINS.md",
+      "sha256": "1246090b3b6570bd194c3b241cade969422f4df15bed769555332037f8373fba",
+      "bytes": 206
+    },
+    {
+      "name": "proof/final_deletion_control.json",
+      "sha256": "e714c990690b5192116e9ed7857c0938f7dd3d2c0228b95fc46825ac1fc5b7eb",
+      "bytes": 1495
+    },
+    {
+      "name": "proof/final_e2e_chain.json",
+      "sha256": "b8ffaf716173d451c4ed093c79d80b4c6704a68d3df6bea226218332c94e7047",
+      "bytes": 4542
+    },
+    {
+      "name": "proof/final_fresh_session.json",
+      "sha256": "f5f3156568c910acbe526ef3db0134f5a5085bc0ce9f2cceddf8f94fdfffd2f6",
+      "bytes": 1171
+    },
+    {
+      "name": "proof/final_integrity_audit.json",
+      "sha256": "91795bddb3b00a916fd549ee123a396057164e77bb1bb89d8b25c869e8472184",
+      "bytes": 5606
+    },
+    {
+      "name": "proof/fresh_process_output.json",
+      "sha256": "ebbfde8c5ada2d11234217333600a44002b33cc0060f79a72e8af15f6b8078bf",
+      "bytes": 1796
+    },
+    {
+      "name": "proof/fresh_session.json",
+      "sha256": "7f153e46d796eaa8992a8cb7832bb4f98118f0fd50fcc7db2be24361981ce3d1",
+      "bytes": 1426
+    },
+    {
+      "name": "proof/race_matrix.json",
+      "sha256": "3262ab25170820e2b03bac148fd9fcd8ffd8dae113c7857238ca1bab95bc7a6d",
+      "bytes": 73217
+    },
+    {
+      "name": "proof/race_output.json",
+      "sha256": "3c762e0e83f2f60ba1a862ce85994aaa2a5ffe95a30e50becd5773665b4d9f97",
+      "bytes": 3408
+    },
+    {
+      "name": "proof/replay.json",
+      "sha256": "5a811380f1f519a4f5a2869aaebfbda7c207202d204b35f01f7759fcc37b27e0",
+      "bytes": 2720
+    },
+    {
+      "name": "proof/retry_output.json",
+      "sha256": "004764238d1dc1b1139411bb63dd13e538646bb4d435a339d0a8f2ddcdeb5d24",
+      "bytes": 842
+    },
+    {
+      "name": "proof/run_manifest.json",
+      "sha256": "ffe22a6c38eacb4e65ea2c77bbcd08534730e8a13985584bcb6afda24b0cf1fb",
+      "bytes": 3954
+    },
+    {
+      "name": "proof/scenarios_output.json",
+      "sha256": "06cb159b4620de90e9c292262295127be88a0788eceb59d0cc3868e57d23c141",
+      "bytes": 9346
+    },
+    {
+      "name": "proof/source_verification.json",
+      "sha256": "dc5ea961cef3c031abc61524181b825a254cdf2e333737fa827697f936f34569",
+      "bytes": 817
+    },
+    {
+      "name": "proof/tamper.json",
+      "sha256": "a76a7b1de4a08f41bbd6b0fb1e16dca1d5a3b4060b9709dcf9414893c225ced2",
+      "bytes": 421
+    }
+  ],
+  "demo": {
+    "recorded": {
+      "label": "Recorded verified run",
+      "entity_key": "risk_verdict/protocol_x",
+      "sequence": [
+        "baseline",
+        "contention",
+        "fresh",
+        "delete",
+        "restore",
+        "rerun"
+      ],
+      "steps": {
+        "baseline": {
+          "id": "baseline",
+          "stage": "Observe",
+          "label": "Known state",
+          "title": "Start from a memory state MNEMON is willing to authorise.",
+          "warm": {
+            "status": "CRITICAL",
+            "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+            "writer_id": "acp-evaluator",
+            "epoch_id": "acp-resolution-78185",
+            "operation_id": "op-acp-resolution-78185"
+          },
+          "cold": [
+            {
+              "status": "CRITICAL",
+              "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+              "writer_id": "acp-evaluator",
+              "epoch_id": "acp-resolution-78185",
+              "operation_id": "op-acp-resolution-78185"
+            }
+          ],
+          "verdict": "CLEAN",
+          "action": "ALLOWED",
+          "note": "WARM and COLD carry the same claim hash for the same entity and epoch, so the current value is bound to its durable witness and nothing contradicts it. The adjudicated status is CRITICAL; what MNEMON certifies here is that the value is consistent and witnessed.",
+          "artifact": "proof/final_e2e_chain.json"
+        },
+        "contention": {
+          "id": "contention",
+          "stage": "Reconcile",
+          "label": "Contention",
+          "title": "Two independent observers commit conflicting claims for one entity and epoch.",
+          "warm": {
+            "status": "CRITICAL",
+            "claim_hash": "sha256:f6764c8a50d886ee147e3c3d1b9fa9841ccef31f422fcb3bdc670e9f8dcc8a57",
+            "writer_id": "watcher-B",
+            "epoch_id": "epoch-0",
+            "operation_id": "op-watcher-B-epoch-0"
+          },
+          "cold": [
+            {
+              "status": "SAFE",
+              "claim_hash": "sha256:913e76aedc5c3e2e38873b784de64a5daeb06c8d369f9158484dc258db04a9b5",
+              "writer_id": "watcher-A",
+              "epoch_id": "epoch-0",
+              "operation_id": "op-watcher-A-epoch-0"
+            },
+            {
+              "status": "CRITICAL",
+              "claim_hash": "sha256:f6764c8a50d886ee147e3c3d1b9fa9841ccef31f422fcb3bdc670e9f8dcc8a57",
+              "writer_id": "watcher-B",
+              "epoch_id": "epoch-0",
+              "operation_id": "op-watcher-B-epoch-0"
+            }
+          ],
+          "verdict": "CONTESTED",
+          "action": "BLOCKED",
+          "note": "WARM holds a single row while COLD keeps both witnesses. MNEMON sees two credentialed writers disagree inside epoch epoch-0, so the action is blocked instead of silently settling on whichever write landed last.",
+          "artifact": "proof/race_output.json"
+        },
+        "fresh": {
+          "id": "fresh",
+          "stage": "Reconcile",
+          "label": "Fresh process",
+          "title": "A separate interpreter re-reads the same memory and reaches the same verdict.",
+          "warm": {
+            "status": "CRITICAL",
+            "claim_hash": "sha256:9cefee55d8e5eda42ce590ad975408efa6b70920d7a49adb941c7504c44374d8",
+            "writer_id": "B",
+            "epoch_id": "proof-epoch",
+            "operation_id": "proof-b"
+          },
+          "cold": [
+            {
+              "status": "CRITICAL",
+              "claim_hash": "sha256:9cefee55d8e5eda42ce590ad975408efa6b70920d7a49adb941c7504c44374d8",
+              "writer_id": "B",
+              "epoch_id": "proof-epoch",
+              "operation_id": "proof-b"
+            },
+            {
+              "status": "SAFE",
+              "claim_hash": "sha256:2deadabea432deaf13f60012960c67da9abbb77ce53faa8f0d68163d751faf1b",
+              "writer_id": "A",
+              "epoch_id": "proof-epoch",
+              "operation_id": "proof-a"
+            }
+          ],
+          "verdict": "CONTESTED",
+          "action": "BLOCKED",
+          "note": "Process 25048 started with no cache or injected state and arrived at CONTESTED from persistence alone. The verdict is a property of the memory, not of the process that happened to read it.",
+          "artifact": "proof/fresh_session.json"
+        },
+        "delete": {
+          "id": "delete",
+          "stage": "Verdict",
+          "label": "Memory removed",
+          "title": "Delete the memory layer and the ability to establish CLEAN goes with it.",
+          "warm": null,
+          "cold": [],
+          "verdict": "UNWITNESSED",
+          "action": "BLOCKED",
+          "note": "memory_removed=true; the arbiter returns no current WARM claim. The persisted ACP result and the Base anchor are still on disk, and neither can substitute for the witness that lived in Sibyl Memory.",
+          "artifact": "proof/delete_memory.json"
+        },
+        "restore": {
+          "id": "restore",
+          "stage": "Action",
+          "label": "Memory restored",
+          "title": "Restore the witness and the state is authorisable again.",
+          "warm": {
+            "status": "CRITICAL",
+            "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+            "writer_id": "acp-evaluator",
+            "epoch_id": "acp-resolution-78185",
+            "operation_id": "op-acp-resolution-78185"
+          },
+          "cold": [
+            {
+              "status": "CRITICAL",
+              "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+              "writer_id": "acp-evaluator",
+              "epoch_id": "acp-resolution-78185",
+              "operation_id": "op-acp-resolution-78185"
+            }
+          ],
+          "verdict": "CLEAN",
+          "action": "ALLOWED",
+          "note": "The deletion control records phase sibyl_available with verdict CLEAN and claim count 1 once the witness is back. Recovery is a property of the memory layer, not of a cached decision.",
+          "artifact": "proof/final_deletion_control.json"
+        },
+        "rerun": {
+          "id": "rerun",
+          "stage": "Action",
+          "label": "Re-run",
+          "title": "Re-run the flow end to end and the resolved state re-verifies.",
+          "warm": {
+            "status": "CRITICAL",
+            "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+            "writer_id": "acp-evaluator",
+            "epoch_id": "acp-resolution-78185",
+            "operation_id": "op-acp-resolution-78185"
+          },
+          "cold": [
+            {
+              "status": "CRITICAL",
+              "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+              "writer_id": "acp-evaluator",
+              "epoch_id": "acp-resolution-78185",
+              "operation_id": "op-acp-resolution-78185"
+            }
+          ],
+          "verdict": "CLEAN",
+          "action": "ALLOWED",
+          "note": "19/19 link checks pass on the re-run, and a brand new interpreter (pid 26448) reconstructs the same verdict from persistence. The ACP deliverable and the Base anchor both bind the identical claim hash.",
+          "artifact": "proof/final_e2e_chain.json"
+        }
+      },
+      "controls": [
+        {
+          "action": "contention",
+          "label": "Run contention proof",
+          "step": "contention"
+        },
+        {
+          "action": "fresh-session",
+          "label": "Fresh-session verification",
+          "step": "fresh"
+        },
+        {
+          "action": "delete-memory",
+          "label": "Delete memory",
+          "step": "delete"
+        },
+        {
+          "action": "restore-memory",
+          "label": "Restore memory",
+          "step": "restore"
+        },
+        {
+          "action": "rerun-flow",
+          "label": "Re-run full flow",
+          "step": "rerun"
+        }
+      ]
+    }
   }
 }

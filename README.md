@@ -15,7 +15,10 @@ MNEMON is a memory-consistency boundary for autonomous systems. It reconciles Si
 
 | Surface | Link |
 |---|---|
-| Live demo | [mnemon-ochre.vercel.app](https://mnemon-ochre.vercel.app) |
+| Product surface | [mnemon-ochre.vercel.app](https://mnemon-ochre.vercel.app) |
+| Interactive demo | [mnemon-ochre.vercel.app/demo](https://mnemon-ochre.vercel.app/demo) |
+| Evidence page | [mnemon-ochre.vercel.app/evidence](https://mnemon-ochre.vercel.app/evidence) |
+| Architecture | [mnemon-ochre.vercel.app/architecture](https://mnemon-ochre.vercel.app/architecture) |
 | GitHub | [github.com/0xkinno/mnemon](https://github.com/0xkinno/mnemon) |
 | Demo video | Not published yet |
 | Base contract | [Base Sepolia contract](https://sepolia.basescan.org/address/0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f) |
@@ -203,20 +206,49 @@ UNWITNESSED
 ACTION = BLOCKED
 ```
 
+## Product surface
+
+The deployed app is a real client-side application with six routes. Every route is reachable from the navbar and every link resolves.
+
+| Route | What it shows |
+|---|---|
+| `/` | The thesis, the memory contradiction, the four verdicts, how it works, live proof, and the demo CTA |
+| `/product` | What MNEMON is, who it is for, and the deliverable contract |
+| `/demo` | The interactive instrument: OBSERVE, RECONCILE, VERDICT, ACTION |
+| `/evidence` | The evidence panel, the proof index with content hashes, and the ACP / Base identifiers |
+| `/architecture` | Where the boundary sits and the failure modes it refuses to hide |
+| `/docs` | The document index and the exact reproduction commands |
+
+### Two modes, one engine
+
+`/demo` runs in one of two modes and says on screen which one is active:
+
+- **live engine** - when `python scripts/demo_api.py` is running. The page calls the instrument API, which drives the real `mnemon` arbiter over a real `sibyl-memory-client` database. Every verdict on screen was produced by that call, and a control stays disabled until the underlying call returns.
+- **recorded run** - when the instrument is not reachable. The page replays a recorded verified run whose every value is read from `proof/`.
+
+Nothing is preloaded in either mode: a step appears only after its control is used, and a control is enabled only after the previous step completed. There is no mock backend and no second engine. Runtime values come from the engine, from `proof/`, or not at all.
+
+### Run the instrument locally
+
+```bash
+python scripts/demo_api.py        # serves app/ and the instrument API on :8080
+# open http://127.0.0.1:8080/demo
+```
+
 ## Product screenshots
 
 <table>
   <tr>
-    <td align="center" width="50%"><img src="assets/screenshot-01.png" alt="MNEMON overview" width="100%"></td>
-    <td align="center" width="50%"><img src="assets/screenshot-02.png" alt="MNEMON contested state" width="100%"></td>
+    <td align="center" width="50%"><img src="assets/screenshot-01.png" alt="MNEMON landing page" width="100%"></td>
+    <td align="center" width="50%"><img src="assets/screenshot-02.png" alt="MNEMON demo instrument" width="100%"></td>
   </tr>
   <tr>
     <td align="center" width="50%"><img src="assets/screenshot-03.png" alt="MNEMON evidence view" width="100%"></td>
-    <td align="center" width="50%"><img src="assets/screenshot-04.png" alt="MNEMON deletion control" width="100%"></td>
+    <td align="center" width="50%"><img src="assets/screenshot-04.png" alt="MNEMON architecture view" width="100%"></td>
   </tr>
 </table>
 
-All four frames are the same `1400×1000` surface rendered at 2× from [`app/index.html`](app/index.html); regenerate them with `node scripts/shots.mjs`.
+All four frames are the same landscape `1440×900` frame captured at 2× (2880×1800), one per route, from the routed surface in [`app/`](app/). They are identical in size by construction: `node scripts/shots.mjs` never captures beyond the viewport, so no frame can come out oversized or portrait.
 
 ## Architecture
 
@@ -419,15 +451,23 @@ scripts/
   acp_inspect.ts
   acp_preflight.mjs
   acp_provider_submit.mjs
-  build_check.mjs        # npm run build
+  build_check.mjs        # npm run build -- the production gate
+  demo_api.py            # local instrument API over the real engine
+  responsive.mjs         # structural verification across viewports
   shots.mjs              # regenerates the README assets
   base_anchor.py
   verify_base.py
-  serve_app.py           # local preview for the static surface
+  serve_app.py           # plain static preview of app/
 
 app/
-  index.html      # static evidence surface (no server, no signer)
+  index.html      # static shell: navbar, main, footer, evidence snapshot
+  app.css         # the surface stylesheet
+  app.js          # client-side router, six views, demo instrument
+  evidence.json   # the same snapshot, for the instrument API
   banner.html
+
+docs/
+  ACP_SETUP.md
 
 assets/
   banner.png
@@ -482,10 +522,13 @@ python experiments/final_e2e_chain.py     # ACP -> COLD -> verdict -> Base linka
 python experiments/final_controls.py      # deletion, fresh-session, integrity audits
 python experiments/app_evidence.py        # refresh the static evidence snapshot
 npm run build                             # production build gate
+node scripts/responsive.mjs               # 6 viewports x 6 routes, structural checks
 node scripts/shots.mjs                    # regenerate the README assets
 ```
 
-`npm run build` fails if the static surface has drifted from `proof/`, if a referenced asset is missing, if a secret leaks into client-visible output, or if the local database path is exposed to the browser.
+`npm run build` fails if the rendered snapshot has drifted from `proof/` in any way, if a route in the navbar has no view, if a link points at an unknown route, if a referenced asset is missing, if an executable inline script reappears, if a secret or a raw key-shaped value leaks into client-visible output, if the local database path is exposed to the browser, or if the page reaches for server-side code.
+
+`node scripts/responsive.mjs` drives the bundled headless Chromium across `390x844`, `430x932`, `768x1024`, `1024x1366`, `1440x900` and `1920x1080`, and across all six routes. It fails on horizontal overflow, on anything wider than the viewport, on a control pushed outside it, on text below 12px, on an unlabelled control, and on a view that did not render. It then opens the mobile menu, clicks every navbar link, and runs the first demo control to prove the instrument moves and gates in order.
 
 ## Prior Work declaration
 

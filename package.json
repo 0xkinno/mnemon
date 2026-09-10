@@ -4,6 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build_check.mjs",
+    "shots": "node scripts/shots.mjs",
+    "verify:responsive": "node scripts/responsive.mjs",
+    "demo": "python scripts/demo_api.py",
     "acp:check": "tsx scripts/acp_arbitrate.ts --check",
     "acp:inspect": "tsx scripts/acp_inspect.ts"
   },

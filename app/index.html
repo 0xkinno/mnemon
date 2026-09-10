@@ -5,277 +5,51 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MNEMON — Memory that can challenge itself.</title>
 <meta name="description" content="Before an autonomous system acts, MNEMON checks whether its current memory is actually witnessed.">
-<style>
-:root{
-  --canvas:#edece7; --ink:#1b1c19; --muted:#6b6f68; --faint:#8d918a;
-  --hairline:#c9c9c1; --panel:#151714; --panelink:#f2f2ec; --panelsoft:#a9b0a5;
-  --accent:#a8622a; --ok:#2f5d46; --warn:#a8622a; --block:#8e3b2f;
-  --serif:ui-serif,Georgia,"Iowan Old Style","Palatino Linotype",Palatino,serif;
-  --sans:Inter,ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
-.shell{max-width:1200px;margin:0 auto;padding:34px 32px 0;display:flex;flex-direction:column;min-height:100vh}
-header.top{display:flex;justify-content:space-between;align-items:baseline;gap:24px;border-bottom:1px solid var(--hairline);padding-bottom:18px}
-.brand{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase}
-.top .right{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--faint);text-align:right;line-height:1.7}
-.hero{display:grid;grid-template-columns:1.12fr .88fr;gap:56px;align-items:end;padding:76px 0 54px}
-.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-h1{font-family:var(--serif);font-weight:500;font-size:clamp(40px,5.6vw,74px);line-height:1.02;letter-spacing:-.015em;margin:20px 0 24px;max-width:15ch}
-.lede{font-size:19px;line-height:1.5;color:#4d514b;max-width:44ch;margin:0}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
-.chip{font-family:var(--mono);font-size:11px;letter-spacing:.05em;border:1px solid var(--hairline);border-radius:2px;padding:6px 10px;color:var(--muted);background:#f4f3ee}
-.card{background:var(--panel);color:var(--panelink);padding:30px 28px 26px;border-radius:3px}
-.card .label{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--panelsoft)}
-.verdict{font-family:var(--serif);font-size:54px;line-height:1;margin:18px 0 6px}
-.verdict[data-tone=ok]{color:#8fc7a8}.verdict[data-tone=warn]{color:#e0a86a}.verdict[data-tone=block]{color:#e08b7a}
-.card .sub{font-size:13.5px;line-height:1.5;color:var(--panelsoft);margin:0 0 20px;max-width:34ch}
-.card dl{margin:0;display:grid;gap:0}
-.card .row{display:flex;justify-content:space-between;gap:16px;border-top:1px solid #33362f;padding:11px 0;font-size:13.5px}
-.card .row:first-of-type{border-top:1px solid #33362f}
-.card .row dt{color:var(--panelsoft);font-weight:400}
-.card .row dd{margin:0;font-family:var(--mono);font-size:12.5px;text-align:right}
-.pipeline{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
-.step{padding:24px 22px 26px;border-left:1px solid var(--hairline)}
-.step:first-child{border-left:none;padding-left:0}
-.step .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--faint)}
-.step h3{font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin:12px 0 10px;font-weight:600}
-.step p{margin:0;font-size:13.5px;line-height:1.5;color:var(--muted)}
-section.block{padding:44px 0 0}
-h2{font-family:var(--serif);font-weight:500;font-size:30px;letter-spacing:-.01em;margin:0 0 10px}
-.block>.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
-.block>.note{font-size:14.5px;line-height:1.55;color:var(--muted);max-width:72ch;margin:0 0 30px}
-.contradiction{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:0;border:1px solid var(--hairline);background:#f4f3ee}
-.witness{padding:28px 26px}
-.witness+.witness{border-left:1px solid var(--hairline)}
-.witness .who{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.witness .val{font-family:var(--serif);font-size:38px;margin:14px 0 8px}
-.witness .val[data-tone=ok]{color:var(--ok)}.witness .val[data-tone=block]{color:var(--block)}
-.witness .why{font-size:13px;line-height:1.5;color:var(--muted)}
-.merge{padding:28px 26px;border-left:1px solid var(--hairline);background:#eceae4}
-.merge .who{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.merge .val{font-family:var(--serif);font-size:38px;margin:14px 0 6px}
-.merge .act{font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:7px 11px;border-radius:2px;display:inline-block;margin-top:10px}
-.act[data-tone=block]{background:#f0ded9;color:var(--block);border:1px solid #ddc3bc}
-.act[data-tone=ok]{background:#dfeadf;color:var(--ok);border:1px solid #c5d8c5}
-.evidence{margin-top:34px;border-top:1px solid var(--hairline)}
-.evidence .item{display:grid;grid-template-columns:250px 1fr;gap:24px;border-bottom:1px solid var(--hairline);padding:12px 0}
-.evidence .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding-top:3px}
-.evidence .v{font-family:var(--mono);font-size:12.5px;line-height:1.65;word-break:break-all}
-.evidence .v a{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
-.controls-table{margin-top:34px;border-top:1px solid var(--hairline)}
-.controls-table .row{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:24px;align-items:center;border-bottom:1px solid var(--hairline);padding:14px 0}
-.controls-table .row.head{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-.controls-table .phase{font-family:var(--mono);font-size:12.5px;text-transform:capitalize}
-.controls-table .vd{font-family:var(--serif);font-size:24px;line-height:1}
-.controls-table .ac{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;padding:6px 10px;border-radius:2px;justify-self:start}
-.substitutes{font-size:13.5px;line-height:1.6;color:var(--muted);margin:18px 0 0;max-width:78ch}
-footer.foot{margin-top:auto;padding-top:22px;border-top:1px solid var(--hairline);display:flex;justify-content:space-between;gap:24px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--faint);line-height:1.8}
-.foot code{font-family:var(--mono);color:var(--muted)}
-@media(max-width:960px){.hero{grid-template-columns:1fr;gap:36px;padding-top:52px}.pipeline{grid-template-columns:1fr 1fr}.step{border-left:none;border-top:1px solid var(--hairline);padding-left:0}.contradiction{grid-template-columns:1fr}.witness+.witness,.merge{border-left:none;border-top:1px solid var(--hairline)}.evidence .item{grid-template-columns:1fr;gap:6px}}
-body[data-focus]:not([data-focus="overview"]) .hero,body[data-focus]:not([data-focus="overview"]) .pipeline{display:none}
-body[data-focus="overview"] #contradiction,body[data-focus="overview"] #evidence,body[data-focus="overview"] #controls{display:none}
-body[data-focus="contradiction"] #evidence,body[data-focus="contradiction"] #controls{display:none}
-body[data-focus="evidence"] #contradiction,body[data-focus="evidence"] #controls{display:none}
-body[data-focus="controls"] #contradiction,body[data-focus="controls"] #evidence{display:none}</style>
+<meta name="color-scheme" content="light">
+<link rel="stylesheet" href="./app.css" charset="utf-8">
 </head>
-<body data-state="resolved">
-<main class="shell">
+<body>
+<a class="skip" href="#view">Skip to content</a>
 
-  <header class="top">
-    <div class="brand">MNEMON</div>
-    <div class="right">
-      RECORDED EVIDENCE · BASE SEPOLIA<br>
-      <span id="top-run">run of 2026-09-10 · Sibyl Memory 0.8.1</span>
-    </div>
-  </header>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="/" data-nav data-path="/">MNEMON</a>
+    <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open navigation">Menu</button>
+    <nav class="nav-links" id="nav-links" aria-label="Primary" data-open="false">
+      <a href="/" data-nav data-path="/">Home</a>
+      <a href="/product" data-nav data-path="/product">Product</a>
+      <a href="/demo" data-nav data-path="/demo">Demo</a>
+      <a href="/evidence" data-nav data-path="/evidence">Evidence</a>
+      <a href="/architecture" data-nav data-path="/architecture">Architecture</a>
+      <a href="/docs" data-nav data-path="/docs">Docs</a>
+      <a class="nav-cta" href="/demo" data-nav data-path="/demo">Open live demo</a>
+    </nav>
+  </div>
+</header>
 
-  <section class="hero">
-    <div>
+<main id="view" class="wrap shell" tabindex="-1">
+  <noscript>
+    <section class="section">
       <div class="eyebrow">Memory assurance for autonomous systems</div>
       <h1>Memory that can challenge itself.</h1>
       <p class="lede">Before an autonomous system acts, MNEMON checks whether its current memory is actually witnessed.</p>
-      <div class="chips">
-        <span class="chip">sibyl-memory-client 0.8.1</span>
-        <span class="chip">Virtuals ACP job 78185</span>
-        <span class="chip" id="chip-base">Base Sepolia anchor</span>
-      </div>
-    </div>
-    <aside class="card">
-      <div class="label">MNEMON decision</div>
-      <div class="verdict" id="verdict" data-tone="ok">CLEAN</div>
-      <p class="sub" id="verdict-sub">The current value is bound to a durable witness and no witnessed claim conflicts with it.</p>
-      <dl>
-        <div class="row"><dt>Current memory (WARM)</dt><dd id="warm">CRITICAL</dd></div>
-        <div class="row"><dt>Durable witness (COLD)</dt><dd id="witnesses">1 committed</dd></div>
-        <div class="row"><dt>Witness writer</dt><dd id="writer">acp-evaluator</dd></div>
-        <div class="row"><dt>Consequence</dt><dd id="action">ALLOWED</dd></div>
-      </dl>
-    </aside>
-  </section>
-
-  <section class="pipeline">
-    <div class="step"><div class="n">01</div><h3>Current memory</h3><p>A single WARM value exists per entity. It is fast, unique, and gives no hint of contention.</p></div>
-    <div class="step"><div class="n">02</div><h3>Durable witness</h3><p>The COLD journal keeps every committed claim with its writer, epoch, and exact claim hash.</p></div>
-    <div class="step"><div class="n">03</div><h3>MNEMON verdict</h3><p>MNEMON reconciles the current value against the journal before anything else is allowed to run.</p></div>
-    <div class="step"><div class="n">04</div><h3>Consequence</h3><p>Only a witnessed, uncontested value may proceed. Everything else fails closed.</p></div>
-  </section>
-
-  <section class="block" id="contradiction">
-    <div class="kicker">The failure this exists for</div>
-    <h2>Two witnesses, one surviving value.</h2>
-    <p class="note">A naive reader sees the last write and acts. MNEMON sees that the surviving value was never the only claim.</p>
-    <div class="contradiction" id="contradiction">
-      <div class="witness">
-        <div class="who">Watcher A</div>
-        <div class="val" id="ca" data-tone="ok">SAFE</div>
-        <div class="why" id="ca-why">Committed to the journal in the contested epoch.</div>
-      </div>
-      <div class="witness">
-        <div class="who">Watcher B</div>
-        <div class="val" id="cb" data-tone="block">CRITICAL</div>
-        <div class="why" id="cb-why">Committed to the journal in the same epoch, contradicting A.</div>
-      </div>
-      <div class="merge">
-        <div class="who">MNEMON</div>
-        <div class="val" id="mv">CONTESTED</div>
-        <div class="act" id="ma" data-tone="block">ACTION BLOCKED</div>
-        <div class="why" id="mwhy" style="font-size:13px;line-height:1.5;color:var(--muted);margin-top:14px">Two valid, conflicting witnesses exist for the same entity and epoch, so the current value is not settled truth.</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="evidence">
-    <div class="kicker">Binding, not coexistence</div>
-    <h2>Every hop carries the same hash.</h2>
-    <p class="note">Each value below is read from a verified artifact in <code>proof/</code>. The claim hash the ACP resolution produced is the same value stored as the Sibyl COLD witness and committed by the Base transaction.</p>
-    <div class="evidence" id="evidence-list"></div>
-  </section>
-
-  <section class="block" id="controls">
-    <div class="kicker">Why Sibyl Memory is load-bearing</div>
-    <h2>Delete the witness and the system fails closed.</h2>
-    <p class="note">The ACP arbitration result and the verified Base anchor are both still on disk in every row below. Neither one substitutes for the witness held in Sibyl Memory.</p>
-    <div class="controls-table" id="controls-table"></div>
-    <p class="substitutes" id="controls-note"></p>
-  </section>
-
-  <footer class="foot">
-    <div>
-      Static evidence surface — values are read from verified run artifacts.<br>
-      Nothing on this page is live, client-generated, or simulated.
-    </div>
-    <div>
-      reproduce: <code>python experiments/final_e2e_chain.py</code><br>
-      controls: <code>python experiments/final_controls.py</code>
-    </div>
-  </footer>
-
+      <p class="note">This product surface needs JavaScript for navigation and for the interactive demo. The verified evidence is available without it in the repository: <code>proof/final_e2e_chain.json</code>, <code>proof/final_deletion_control.json</code>, <code>proof/final_integrity_audit.json</code> and <code>EVIDENCE.md</code>.</p>
+    </section>
+  </noscript>
 </main>
 
-<script type="application/json" id="evidence-snapshot">{"generated_at":"2026-09-10T12:40:55.962Z","source":"proof/final_e2e_chain.json","linkage_verified":true,"acp_job_id":"78185","entity_key":"risk_verdict/protocol_x","epoch_id":"acp-epoch-contested","acp":{"job_id":"78185","offering":"independent_memory_adjudication","final_onchain_status":"COMPLETED","deliverable":{"decision":"UPHELD","winning_claim":"CRITICAL","reason_code":"safety-dominant-witness-upheld","evidence_digest":"sha256:302a532c95d1fcb09f82ea54c8971dd9daf3c764abc79d0e567e9c6f075ac269","adjudicated_at":"2026-09-10T11:17:43.522Z"},"deliverable_digest":"sha256:dc64b03c20801dd3aa11e83b2e4fa359ef2a245a6b6e83f889bb8d7aba49fa5f","deliverable_keccak256":"0xd78e765e05b987568f0d60a3a0dc2e97b6bcc0d5418b5f8a9ef79c2752120b0d","onchain_submitted_hash":"0xd78e765e05b987568f0d60a3a0dc2e97b6bcc0d5418b5f8a9ef79c2752120b0d"},"cold_witness":{"operation_id":"op-acp-resolution-78185","epoch_id":"acp-resolution-78185","writer_id":"acp-evaluator","claim_hash":"sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04","status":"CRITICAL"},"base_commitment":{"network":"base-sepolia","chain_id":84532,"contract_address":"0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f","tx_hash":"f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269","block_number":46637732,"explorer":"https://sepolia.basescan.org/tx/f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269"},"verdict":{"status":"CLEAN","action":"ALLOWED"},"deletion_control":{"phases":[{"phase":"sibyl_available","verdict":"CLEAN","action":"ALLOWED","claim_count":1},{"phase":"entity_deleted","verdict":"UNWITNESSED","action":"BLOCKED","claim_count":0},{"phase":"memory_unavailable","verdict":"UNWITNESSED","action":"BLOCKED","claim_count":0}],"substitutes_present_but_insufficient":{"acp_arbitration_present":true,"acp_cold_result_present":true,"base_resolution_anchor_present":true},"deletion_control_verified":true}}</script>
-<script>
-(function () {
-  var EVIDENCE = JSON.parse(document.getElementById("evidence-snapshot").textContent);
-  var qs = new URLSearchParams(location.search);
-  var state = qs.get("state") || "resolved";
-  document.body.dataset.state = state;
-  var focus = qs.get("focus");
-  if (focus) document.body.dataset.focus = focus;
-  var STATES = {
-    resolved: {
-      verdict: "CLEAN", tone: "ok",
-      sub: "The surviving value is bound to a durable witness and no witnessed claim conflicts with it.",
-      warm: EVIDENCE.cold_witness ? EVIDENCE.cold_witness.status : "CRITICAL",
-      witnesses: "1 committed", writer: "acp-evaluator", action: "ALLOWED", actionTone: "ok",
-      ca: "SAFE", caTone: "ok", cb: "CRITICAL", cbTone: "block",
-      mv: "CLEAN", mvTone: "ok", ma: "ACTION ALLOWED", maTone: "ok",
-      mwhy: "The conflicting claim was resolved by independent ACP adjudication, the resolution became a durable witness, and the recomputed verdict is uncontested."
-    },
-    contested: {
-      verdict: "CONTESTED", tone: "warn",
-      sub: "Two valid witnesses disagree for the same entity and epoch. The surviving value is not settled truth.",
-      warm: "SAFE", witnesses: "2 conflicting", writer: "watcher-b / watcher-a", action: "BLOCKED", actionTone: "block",
-      ca: "SAFE", caTone: "ok", cb: "CRITICAL", cbTone: "block",
-      mv: "CONTESTED", mvTone: "warn", ma: "ACTION BLOCKED", maTone: "block",
-      mwhy: "Two valid, conflicting witnesses exist for the same entity and epoch, so the current value is not settled truth."
-    },
-    deletion: {
-      verdict: "UNWITNESSED", tone: "block",
-      sub: "The witness that justified this decision is gone, so MNEMON cannot establish that the value is settled.",
-      warm: "—", witnesses: "0 committed", writer: "—", action: "BLOCKED", actionTone: "block",
-      ca: "SAFE", caTone: "ok", cb: "CRITICAL", cbTone: "block",
-      mv: "UNWITNESSED", mvTone: "block", ma: "ACTION BLOCKED", maTone: "block",
-      mwhy: "The ACP result and the Base anchor are both still on disk, but the memory layer no longer holds the witness. Nothing substitutes for it."
-    }
-  };
-  var s = STATES[state] || STATES.resolved;
-  function set(id, text) { var el = document.getElementById(id); if (el) el.textContent = text; }
-  function tone(id, t) { var el = document.getElementById(id); if (el) el.dataset.tone = t; }
-  set("verdict", s.verdict); tone("verdict", s.tone);
-  set("verdict-sub", s.sub);
-  set("warm", s.warm); set("witnesses", s.witnesses); set("writer", s.writer);
-  set("action", s.action); set("action", s.action);
-  var card = document.getElementById("action"); if (card) card.style.color = s.actionTone === "ok" ? "#8fc7a8" : "#e08b7a";
-  set("ca", s.ca); tone("ca", s.caTone); set("cb", s.cb); tone("cb", s.cbTone);
-  set("mv", s.mv); tone("mv", s.mvTone);
-  set("ma", s.ma); tone("ma", s.maTone); set("mwhy", s.mwhy);
+<footer class="foot">
+  <div>
+    Static evidence surface — values are read from verified run artifacts.<br>
+    Nothing on this page is live, client-generated, or simulated.
+  </div>
+  <div>
+    instrument: <code>python scripts/demo_api.py</code><br>
+    reproduce: <code>python experiments/final_e2e_chain.py</code>
+  </div>
+</footer>
 
-  var rows = [
-    ["Entity", EVIDENCE.entity_key],
-    ["Contested epoch", EVIDENCE.epoch_id],
-    ["Winning claim", EVIDENCE.acp ? EVIDENCE.acp.deliverable.winning_claim : null],
-    ["ACP job", EVIDENCE.acp ? EVIDENCE.acp.job_id : null],
-    ["Deliverable digest (sha256)", EVIDENCE.acp ? EVIDENCE.acp.deliverable_digest : null],
-    ["On-chain submitted hash (keccak256)", EVIDENCE.acp ? EVIDENCE.acp.onchain_submitted_hash : null],
-    ["COLD witness operation", EVIDENCE.cold_witness ? EVIDENCE.cold_witness.operation_id : null],
-    ["COLD witness claim hash", EVIDENCE.cold_witness ? EVIDENCE.cold_witness.claim_hash : null],
-    ["Base transaction", EVIDENCE.base_commitment ? EVIDENCE.base_commitment.tx_hash : null],
-    ["Base block", EVIDENCE.base_commitment ? String(EVIDENCE.base_commitment.block_number) : null]
-  ];
-  var host = document.getElementById("evidence-list");
-  rows.forEach(function (row) {
-    if (row[1] === null || row[1] === undefined) return;
-    var item = document.createElement("div"); item.className = "item";
-    var k = document.createElement("div"); k.className = "k"; k.textContent = row[0];
-    var v = document.createElement("div"); v.className = "v";
-    if (row[0] === "Base transaction" && EVIDENCE.base_commitment && EVIDENCE.base_commitment.explorer) {
-      var a = document.createElement("a"); a.href = EVIDENCE.base_commitment.explorer; a.textContent = row[1]; v.appendChild(a);
-    } else { v.textContent = row[1]; }
-    item.appendChild(k); item.appendChild(v); host.appendChild(item);
-  });
-
-  var ctl = EVIDENCE.deletion_control;
-  if (ctl && ctl.phases) {
-    var table = document.getElementById("controls-table");
-    var head = document.createElement("div"); head.className = "row head";
-    ["Phase", "MNEMON verdict", "Consequence"].forEach(function (label) {
-      var c = document.createElement("div"); c.textContent = label; head.appendChild(c);
-    });
-    table.appendChild(head);
-    ctl.phases.forEach(function (phase) {
-      var row = document.createElement("div"); row.className = "row";
-      var p = document.createElement("div"); p.className = "phase"; p.textContent = phase.phase.replace(/_/g, " ");
-      var v = document.createElement("div"); v.className = "vd"; v.textContent = phase.verdict;
-      v.style.color = phase.verdict === "CLEAN" ? "var(--ok)" : "var(--block)";
-      var a = document.createElement("div"); a.className = "ac"; a.textContent = phase.action;
-      if (phase.action === "BLOCKED") { a.style.background = "#f0ded9"; a.style.color = "var(--block)"; a.style.border = "1px solid #ddc3bc"; }
-      else { a.style.background = "#dfeadf"; a.style.color = "var(--ok)"; a.style.border = "1px solid #c5d8c5"; }
-      row.appendChild(p); row.appendChild(v); row.appendChild(a); table.appendChild(row);
-    });
-    var sub = ctl.substitutes_present_but_insufficient;
-    document.getElementById("controls-note").textContent =
-      "ACP arbitration artifact present: " + (sub.acp_arbitration_present ? "yes" : "no")
-      + " · COLD result artifact present: " + (sub.acp_cold_result_present ? "yes" : "no")
-      + " · Base anchor present: " + (sub.base_resolution_anchor_present ? "yes" : "no")
-      + " — yet both removal cases block.";
-  }
-
-  if (EVIDENCE.acp && EVIDENCE.acp.job_id) {
-    document.getElementById("top-run").textContent = "ACP job " + EVIDENCE.acp.job_id + " · settlement verified on chain";
-  }
-})();
-</script>
+<script type="application/json" id="evidence-snapshot">{"generated_at":"2026-09-10T12:40:55.962Z","source":"proof/final_e2e_chain.json","linkage_verified":true,"acp_job_id":"78185","entity_key":"risk_verdict/protocol_x","epoch_id":"acp-epoch-contested","sibyl_version":"0.8.1","contract_explorer":"https://sepolia.basescan.org/address/0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f","acp":{"job_id":"78185","offering":"independent_memory_adjudication","final_onchain_status":"COMPLETED","deliverable":{"decision":"UPHELD","winning_claim":"CRITICAL","reason_code":"safety-dominant-witness-upheld","evidence_digest":"sha256:302a532c95d1fcb09f82ea54c8971dd9daf3c764abc79d0e567e9c6f075ac269","adjudicated_at":"2026-09-10T11:17:43.522Z"},"deliverable_digest":"sha256:dc64b03c20801dd3aa11e83b2e4fa359ef2a245a6b6e83f889bb8d7aba49fa5f","deliverable_keccak256":"0xd78e765e05b987568f0d60a3a0dc2e97b6bcc0d5418b5f8a9ef79c2752120b0d","onchain_submitted_hash":"0xd78e765e05b987568f0d60a3a0dc2e97b6bcc0d5418b5f8a9ef79c2752120b0d"},"cold_witness":{"operation_id":"op-acp-resolution-78185","epoch_id":"acp-resolution-78185","writer_id":"acp-evaluator","claim_hash":"sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04","status":"CRITICAL"},"base_commitment":{"network":"base-sepolia","chain_id":84532,"contract_address":"0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f","tx_hash":"f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269","block_number":46637732,"explorer":"https://sepolia.basescan.org/tx/f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269"},"verdict":{"status":"CLEAN","action":"ALLOWED"},"deletion_control":{"phases":[{"phase":"sibyl_available","verdict":"CLEAN","action":"ALLOWED","claim_count":1},{"phase":"entity_deleted","verdict":"UNWITNESSED","action":"BLOCKED","claim_count":0},{"phase":"memory_unavailable","verdict":"UNWITNESSED","action":"BLOCKED","claim_count":0}],"substitutes_present_but_insufficient":{"acp_arbitration_present":true,"acp_cold_result_present":true,"base_resolution_anchor_present":true},"deletion_control_verified":true},"evidence_panel":[{"label":"Sibyl version","value":"sibyl-memory-client 0.8.1","detail":"WARM entities UNIQUE(tenant_id, category, name); COLD journal_events(id, tenant_id, ts, evaluated, acted, forward, extra)","artifact":"proof/source_verification.json","tone":"ok"},{"label":"Experiment status","value":"5 passed in 1.45s","detail":"suite green on python 3.12.10; 31 artifacts hashed in proof/run_manifest.json","artifact":"proof/run_manifest.json","tone":"ok"},{"label":"Race result","value":"20/20 trials CONTESTED","detail":"independent writers race the same entity and epoch; no trial silently settles on the last writer","artifact":"proof/race_matrix.json","tone":"warn"},{"label":"Fresh-process result","value":"CONTESTED (pid 25048)","detail":"a separate interpreter re-reads the same memory and returns the same verdict","artifact":"proof/fresh_session.json","tone":"warn"},{"label":"Deletion result","value":"UNWITNESSED / BLOCKED","detail":"removing the memory layer removes the ability to establish CLEAN (no current WARM claim)","artifact":"proof/delete_memory.json","tone":"block"},{"label":"Tamper result","value":"INVALID","detail":"an altered claim is rejected before it can be acted on: current claim hash mismatch","artifact":"proof/tamper.json","tone":"block"},{"label":"Integrity audit","value":"12/12 must-block cases hold","detail":"17 adversarial cases run against the real engine; audit_passed=true","artifact":"proof/final_integrity_audit.json","tone":"ok"},{"label":"ACP job status","value":"COMPLETED (job 78185)","detail":"Virtuals ACP on base-mainnet; rejected=false; evaluator, provider and buyer binding re-checked on chain","artifact":"proof/acp_job_78185.json","tone":"ok"},{"label":"Base transaction status","value":"receipt status 1 (block 46585270)","detail":"claim hash decoded from the anchor event matches the witnessed claim: true","artifact":"proof/base_transaction_verified.json","tone":"ok"}],"proof_index":[{"name":"proof/acp_arbitration.json","sha256":"d80efcc7affc9e4ea62f980b2373b9f071f9b95e63136fa5edddd521cbe5ba75","bytes":1559},{"name":"proof/acp_arbitration_failure.json","sha256":"d35abf7431220c906b589bda1e15f9fa49d7f6f2b125d8c5b8ba5cbda0c9bdd4","bytes":2356},{"name":"proof/acp_cold_result.json","sha256":"7eda82a6f7a1ab7a4bdd62b77aba72317c0a219ff6a398c9fc66ebb09681a9a5","bytes":899},{"name":"proof/acp_deliverable.json","sha256":"dc64b03c20801dd3aa11e83b2e4fa359ef2a245a6b6e83f889bb8d7aba49fa5f","bytes":231},{"name":"proof/acp_fresh_process.json","sha256":"8e41937672b2e6baaa6435c5f4aa7ab89025dbd678ed4b06c7a4b9cab7a094b1","bytes":1822},{"name":"proof/acp_job.json","sha256":"fb9c41e5284ee24514682aab94c3f215862ef2b18bc7de4194cf266bc9d5d725","bytes":607},{"name":"proof/acp_job_77954.json","sha256":"2a8e28b36f8c2c5e3f8996f8102d8ca36f26491282b292e73a0f04d61c18ac56","bytes":3219},{"name":"proof/acp_job_78154.json","sha256":"e75b43d1e33a80244e65ad6e1e05f72c3d4383996908b9eea9b4dada48bf18ea","bytes":3794},{"name":"proof/acp_job_78185.json","sha256":"46933eafa989560601b5076c5afaf44e383fb1dfabce67f8ba1d52823ed18b48","bytes":4672},{"name":"proof/acp_requirement.json","sha256":"b2a50c0b8eee530bd905394aedb6d95b8c531d54241d4f46b3a85b8e20799006","bytes":428},{"name":"proof/acp_result.json","sha256":"766593620fb1ae867d5738ab60660f617d76f3b7b37fd5bad10e61e72f188c74","bytes":1931},{"name":"proof/base_acp_resolution.json","sha256":"9c10c4e3e86ef0c894ebb3acecb18c6dc99531a7ee8eb865046853efacfa65e1","bytes":1531},{"name":"proof/base_deployment.json","sha256":"5a9aa7fda3b5b2b7512b032645ce5256d2548aa37ad9516468f3bd4cad40ce0a","bytes":304},{"name":"proof/base_transaction.json","sha256":"591fbc8054cc1d330501545a1bcc5f1b290f946257db8da7e415607fa9f6425e","bytes":525},{"name":"proof/base_transaction_verified.json","sha256":"12a68690a7535493675bdc439e4da7110f8edd74ceaf7787beee6c277c08efd3","bytes":503},{"name":"proof/benchmark.json","sha256":"42011d146ff44458c9f20430a7f847a3b33c06110c02b7c05ac8d6a730c76f5d","bytes":823},{"name":"proof/benchmark_stdout.txt","sha256":"6488afa9918609c98bf2dfb62c59cebfec7e582b942fc045a6a452b18212671b","bytes":1652},{"name":"proof/crash_output.json","sha256":"f5391714716d1317f3f12e2e989422b95d8ee6b704732f1bf9b08a25a834f522","bytes":884},{"name":"proof/delete_memory.json","sha256":"0800dd7a21476e37edfe17b32d49589d01a1d5a7b7b3a0cc09a1e61fd958bd52","bytes":164},{"name":"proof/DOMAINS.md","sha256":"1246090b3b6570bd194c3b241cade969422f4df15bed769555332037f8373fba","bytes":206},{"name":"proof/final_deletion_control.json","sha256":"e714c990690b5192116e9ed7857c0938f7dd3d2c0228b95fc46825ac1fc5b7eb","bytes":1495},{"name":"proof/final_e2e_chain.json","sha256":"b8ffaf716173d451c4ed093c79d80b4c6704a68d3df6bea226218332c94e7047","bytes":4542},{"name":"proof/final_fresh_session.json","sha256":"f5f3156568c910acbe526ef3db0134f5a5085bc0ce9f2cceddf8f94fdfffd2f6","bytes":1171},{"name":"proof/final_integrity_audit.json","sha256":"91795bddb3b00a916fd549ee123a396057164e77bb1bb89d8b25c869e8472184","bytes":5606},{"name":"proof/fresh_process_output.json","sha256":"ebbfde8c5ada2d11234217333600a44002b33cc0060f79a72e8af15f6b8078bf","bytes":1796},{"name":"proof/fresh_session.json","sha256":"7f153e46d796eaa8992a8cb7832bb4f98118f0fd50fcc7db2be24361981ce3d1","bytes":1426},{"name":"proof/race_matrix.json","sha256":"3262ab25170820e2b03bac148fd9fcd8ffd8dae113c7857238ca1bab95bc7a6d","bytes":73217},{"name":"proof/race_output.json","sha256":"3c762e0e83f2f60ba1a862ce85994aaa2a5ffe95a30e50becd5773665b4d9f97","bytes":3408},{"name":"proof/replay.json","sha256":"5a811380f1f519a4f5a2869aaebfbda7c207202d204b35f01f7759fcc37b27e0","bytes":2720},{"name":"proof/retry_output.json","sha256":"004764238d1dc1b1139411bb63dd13e538646bb4d435a339d0a8f2ddcdeb5d24","bytes":842},{"name":"proof/run_manifest.json","sha256":"ffe22a6c38eacb4e65ea2c77bbcd08534730e8a13985584bcb6afda24b0cf1fb","bytes":3954},{"name":"proof/scenarios_output.json","sha256":"06cb159b4620de90e9c292262295127be88a0788eceb59d0cc3868e57d23c141","bytes":9346},{"name":"proof/source_verification.json","sha256":"dc5ea961cef3c031abc61524181b825a254cdf2e333737fa827697f936f34569","bytes":817},{"name":"proof/tamper.json","sha256":"a76a7b1de4a08f41bbd6b0fb1e16dca1d5a3b4060b9709dcf9414893c225ced2","bytes":421}],"demo":{"recorded":{"label":"Recorded verified run","entity_key":"risk_verdict/protocol_x","sequence":["baseline","contention","fresh","delete","restore","rerun"],"steps":{"baseline":{"id":"baseline","stage":"Observe","label":"Known state","title":"Start from a memory state MNEMON is willing to authorise.","warm":{"status":"CRITICAL","claim_hash":"sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04","writer_id":"acp-evaluator","epoch_id":"acp-resolution-78185","operation_id":"op-acp-resolution-78185"},"cold":[{"status":"CRITICAL","claim_hash":"sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04","writer_id":"acp-evaluator","epoch_id":"acp-resolution-78185","operation_id":"op-acp-resolution-78185"}],"verdict":"CLEAN","action":"ALLOWED","note":"WARM and COLD carry the same claim hash for the same entity and epoch, so the current value is bound to its durable witness and nothing contradicts it. The adjudicated status is CRITICAL; what MNEMON certifies here is that the value is consistent and witnessed.","artifact":"proof/final_e2e_chain.json"},"contention":{"id":"contention","stage":"Reconcile","label":"Contention","title":"Two independent observers commit conflicting claims for one entity and epoch.","warm":{"status":"CRITICAL","claim_hash":"sha256:f6764c8a50d886ee147e3c3d1b9fa9841ccef31f422fcb3bdc670e9f8dcc8a57","writer_id":"watcher-B","epoch_id":"epoch-0","operation_id":"op-watcher-B-epoch-0"},"cold":[{"status":"SAFE","claim_hash":"sha256:913e76aedc5c3e2e38873b784de64a5daeb06c8d369f9158484dc258db04a9b5","writer_id":"watcher-A","epoch_id":"epoch-0","operation_id":"op-watcher-A-epoch-0"},{"status":"CRITICAL","claim_hash":"sha256:f6764c8a50d886ee147e3c3d1b9fa9841ccef31f422fcb3bdc670e9f8dcc8a57","writer_id":"watcher-B","epoch_id":"epoch-0","operation_id":"op-watcher-B-epoch-0"}],"verdict":"CONTESTED","action":"BLOCKED","note":"WARM holds a single row while COLD keeps both witnesses. MNEMON sees two credentialed writers disagree inside epoch epoch-0, so the action is blocked instead of silently settling on whichever write landed last.","artifact":"proof/race_output.json"},"fresh":{"id":"fresh","stage":"Reconcile","label":"Fresh process","title":"A separate interpreter re-reads the same memory and reaches the same verdict.","warm":{"status":"CRITICAL","claim_hash":"sha256:9cefee55d8e5eda42ce590ad975408efa6b70920d7a49adb941c7504c44374d8","writer_id":"B","epoch_id":"proof-epoch","operation_id":"proof-b"},"cold":[{"status":"CRITICAL","claim_hash":"sha256:9cefee55d8e5eda42ce590ad975408efa6b70920d7a49adb941c7504c44374d8","writer_id":"B","epoch_id":"proof-epoch","operation_id":"proof-b"},{"status":"SAFE","claim_hash":"sha256:2deadabea432deaf13f60012960c67da9abbb77ce53faa8f0d68163d751faf1b","writer_id":"A","epoch_id":"proof-epoch","operation_id":"proof-a"}],"verdict":"CONTESTED","action":"BLOCKED","note":"Process 25048 started with no cache or injected state and arrived at CONTESTED from persistence alone. The verdict is a property of the memory, not of the process that happened to read it.","artifact":"proof/fresh_session.json"},"delete":{"id":"delete","stage":"Verdict","label":"Memory removed","title":"Delete the memory layer and the ability to establish CLEAN goes with it.","warm":null,"cold":[],"verdict":"UNWITNESSED","action":"BLOCKED","note":"memory_removed=true; the arbiter returns no current WARM claim. The persisted ACP result and the Base anchor are still on disk, and neither can substitute for the witness that lived in Sibyl Memory.","artifact":"proof/delete_memory.json"},"restore":{"id":"restore","stage":"Action","label":"Memory restored","title":"Restore the witness and the state is authorisable again.","warm":{"status":"CRITICAL","claim_hash":"sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04","writer_id":"acp-evaluator","epoch_id":"acp-resolution-78185","operation_id":"op-acp-resolution-78185"},"cold":[{"status":"CRITICAL","claim_hash":"sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04","writer_id":"acp-evaluator","epoch_id":"acp-resolution-78185","operation_id":"op-acp-resolution-78185"}],"verdict":"CLEAN","action":"ALLOWED","note":"The deletion control records phase sibyl_available with verdict CLEAN and claim count 1 once the witness is back. Recovery is a property of the memory layer, not of a cached decision.","artifact":"proof/final_deletion_control.json"},"rerun":{"id":"rerun","stage":"Action","label":"Re-run","title":"Re-run the flow end to end and the resolved state re-verifies.","warm":{"status":"CRITICAL","claim_hash":"sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04","writer_id":"acp-evaluator","epoch_id":"acp-resolution-78185","operation_id":"op-acp-resolution-78185"},"cold":[{"status":"CRITICAL","claim_hash":"sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04","writer_id":"acp-evaluator","epoch_id":"acp-resolution-78185","operation_id":"op-acp-resolution-78185"}],"verdict":"CLEAN","action":"ALLOWED","note":"19/19 link checks pass on the re-run, and a brand new interpreter (pid 26448) reconstructs the same verdict from persistence. The ACP deliverable and the Base anchor both bind the identical claim hash.","artifact":"proof/final_e2e_chain.json"}},"controls":[{"action":"contention","label":"Run contention proof","step":"contention"},{"action":"fresh-session","label":"Fresh-session verification","step":"fresh"},{"action":"delete-memory","label":"Delete memory","step":"delete"},{"action":"restore-memory","label":"Restore memory","step":"restore"},{"action":"rerun-flow","label":"Re-run full flow","step":"rerun"}]}}}</script>
+<script src="./app.js" charset="utf-8"></script>
 </body>
 </html>

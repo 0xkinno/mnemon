@@ -12,7 +12,7 @@ MNEMON ships two independent surfaces, and only one of them is deployable to a p
 | Repository | <https://github.com/0xkinno/mnemon> |
 | Framework setting | Other (the static surface, not a Python service) |
 
-The Vercel build runs `node scripts/build_check.mjs` as its build command, so a deployment cannot go out if the page has drifted from `proof/`.
+The Vercel build runs `node scripts/build_check.mjs` as its build command, so a deployment cannot go out if the page has drifted from `proof/`. `vercel.json` also rewrites the six client-side routes (`/product`, `/demo`, `/evidence`, `/architecture`, `/docs`) onto `app/index.html`, so deep links resolve instead of 404ing.
 
 ### Environment variables
 
@@ -36,7 +36,8 @@ Vercel environment variables are scoped to Production and Development only; the 
 
 | Surface | What it is | Deployable |
 |---|---|---|
-| `app/` | Static evidence page. Plain HTML/CSS/JS reading an inlined JSON snapshot. | Yes |
+| `app/` | Static product surface. Plain HTML/CSS/JS with a client-side router, six views, and an inlined JSON snapshot. | Yes |
+| `scripts/demo_api.py` | Local instrument API. Drives the real `mnemon` arbiter over a real `sibyl-memory-client` database so `/demo` can run live. | No — local only |
 | `scripts/`, `experiments/`, `mnemon/` | Local proof harness. Reads `.acp-memory.db`, talks to Base Sepolia, and holds signer credentials. | No — local only |
 
 ## Static surface (Vercel)
@@ -45,22 +46,29 @@ Vercel environment variables are scoped to Production and Development only; the 
 
 ```text
 Framework preset : Other
-Build command    : (none)
+Build command    : node scripts/build_check.mjs
 Output directory : app
 ```
 
-The page inlines its own evidence snapshot (`<script type="application/json" id="evidence-snapshot">`), so it renders identically with no network, no API, and no database.
+The page inlines its own evidence snapshot (`<script type="application/json" id="evidence-snapshot">`), so it renders identically with no network, no API, and no database. `/demo` detects that no instrument is reachable and replays the recorded verified run, saying so on screen.
 
 ### Why it is safe to publish
 
 `npm run build` (`scripts/build_check.mjs`) is the pre-deploy gate. It fails the build when:
 
 - `proof/final_e2e_chain.json` is not linkage-verified;
-- `app/evidence.json` or the inlined snapshot has drifted from `proof/`;
-- a locally referenced asset is missing;
-- secret material appears in client-visible output;
+- `app/evidence.json` or the inlined snapshot has drifted from `proof/` in any field;
+- the snapshot is missing its evidence panel, its proof index, or its recorded demo run;
+- a route in the navbar has no view, or a link points at an unknown route;
+- a local asset reference is missing;
+- `app.js` or `app.css` stopped being referenced;
+- an executable inline script reappears in `index.html`;
+- non-ASCII text has been mis-decoded (the signature of a bad write on Windows);
+- secret material or a raw 32-byte hex value appears in client-visible output;
 - the local SQLite/Sibyl database path is exposed to the browser;
 - the page reaches for server-side or non-static code.
+
+`node scripts/responsive.mjs` is the companion structural gate: six viewports (`390x844` through `1920x1080`) against six routes, checking overflow, control placement, text size, labels, and that the navbar, mobile menu and demo controls actually work.
 
 The client-side scans explicitly exclude the inlined evidence snapshot, because public on-chain digests and transaction hashes are not secrets. Everything else that looks like key material is a real finding.
 
@@ -68,7 +76,7 @@ The client-side scans explicitly exclude the inlined evidence snapshot, because 
 
 - **No signer, no private key, and no wallet module is reachable from the browser.** The page reads a frozen snapshot; it never signs.
 - **No destructive control is exposed.** Deleting Sibyl Memory is a local, server-controlled proof, not a public endpoint.
-- **No live reads.** The page states plainly that nothing on it is live, client-generated, or simulated.
+- **No live reads from the deployed page.** With no instrument API on the host, `/demo` replays artifacts from `proof/` and labels itself a recorded run. Live execution needs `scripts/demo_api.py`, which is never deployed.
 - **`NEXT_PUBLIC_*` is unused.** There is no framework and therefore no public env-var channel to leak through.
 
 ## Local proof harness
@@ -84,7 +92,9 @@ python experiments/final_e2e_chain.py
 python experiments/final_controls.py
 ```
 
-`npm run build` and `node scripts/shots.mjs` are safe to run anywhere: they only read files and drive a local headless browser.
+`npm run build`, `node scripts/responsive.mjs` and `node scripts/shots.mjs` are safe to run anywhere: they only read files and drive a local headless browser.
+
+`python scripts/demo_api.py` is also local-only. It writes `.demo-memory.db` (covered by `*.db` in `.gitignore`), binds to `127.0.0.1`, and exists so the `/demo` page can drive the real engine during judging.
 
 ## Repository hygiene before a public push
 
