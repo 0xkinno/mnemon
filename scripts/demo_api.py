@@ -94,8 +94,19 @@ class Instrument:
         self.reset()
 
     def reset(self):
-        if self.db.exists():
-            DB.unlink()
+        # Drop the file and any WAL sidecar. If the memory file is held open by
+        # another instrument we refuse to start rather than silently presenting a
+        # dirty database as the demo's known starting state.
+        for path in (DB, Path(str(DB) + "-wal"), Path(str(DB) + "-shm")):
+            try:
+                path.unlink()
+            except FileNotFoundError:
+                pass
+            except OSError as err:
+                raise RuntimeError(
+                    "cannot clear " + path.name + " (" + str(err) + "); another "
+                    "demo_api.py instance is probably serving the same memory file"
+                ) from err
         self.memory = WitnessedMemory(str(self.db))
         self.memory.witnessed_write(
             category=CATEGORY, name=NAME, status="SAFE",

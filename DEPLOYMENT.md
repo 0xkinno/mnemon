@@ -70,6 +70,8 @@ The page inlines its own evidence snapshot (`<script type="application/json" id=
 
 `node scripts/responsive.mjs` is the companion structural gate: six viewports (`390x844` through `1920x1080`) against six routes, checking overflow, control placement, text size, labels, and that the navbar, mobile menu and demo controls actually work.
 
+`node scripts/audit_ui.mjs` is the functional gate. It asserts route-specific content, resolves every link, rejects dead links and unlabelled controls, fails on any console error, unhandled exception or failed request, walks the whole five-control `/demo` sequence asserting the real verdict and action after each step, exercises reset, opens and closes the mobile menu, and checks that the navbar badge tells the truth about the mode the page reached (`LIVE ENGINE` only if the instrument API answered, `RECORDED RUN` otherwise). Run it with `MNEMON_BASE_URL=https://mnemon-ochre.vercel.app` against production, and with `MNEMON_EXPECT_LIVE=1` against a host serving `scripts/demo_api.py`.
+
 The client-side scans explicitly exclude the inlined evidence snapshot, because public on-chain digests and transaction hashes are not secrets. Everything else that looks like key material is a real finding.
 
 ### What is deliberately not deployed
@@ -92,13 +94,13 @@ python experiments/final_e2e_chain.py
 python experiments/final_controls.py
 ```
 
-`npm run build`, `node scripts/responsive.mjs` and `node scripts/shots.mjs` are safe to run anywhere: they only read files and drive a local headless browser.
+`npm run build`, `node scripts/responsive.mjs`, `node scripts/audit_ui.mjs` and `node scripts/shots.mjs` are safe to run anywhere: they only read files and drive a local headless browser.
 
 `python scripts/demo_api.py` is also local-only. It writes `.demo-memory.db` (covered by `*.db` in `.gitignore`), binds to `127.0.0.1`, and exists so the `/demo` page can drive the real engine during judging.
 
 ## Repository hygiene before a public push
 
-`.gitignore` must keep `.env`, `.env.local`, `.realvenv/`, `.venv/`, `.runs/`, `.real-races/`, `*.db`, `__pycache__/`, `.pytest_cache/`, `research/`, and `node_modules/` out of the published tree. Confirm with:
+`.gitignore` must keep `.env`, `.env.local`, `.realvenv/`, `.venv/`, `.runs/`, `.real-races/`, `*.db`, `__pycache__/`, `.pytest_cache/`, `research/`, and `node_modules/` out of the published tree. `research/` is also where the third-party reference checkouts used for design reference live (`research/normandy-ref`, `research/vurqel-ref`); they are other projects, not MNEMON code, and must never be committed. Confirm with:
 
 ```bash
 git ls-files | grep -E '(^|/)(\.env|\.env\.local)$'

@@ -12,6 +12,14 @@ __pycache__/
 pytest-cache-files-*/
 .testdata/
 
+# Private research notes and third-party reference checkouts.
 research/
+
 node_modules/
 .vercel
+
+# Video and Remotion build artifacts
+video/
+remotion/
+public/
+*.mp4

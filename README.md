@@ -214,7 +214,7 @@ The deployed app is a real client-side application with six routes. Every route 
 |---|---|
 | `/` | The thesis, the memory contradiction, the four verdicts, how it works, live proof, and the demo CTA |
 | `/product` | What MNEMON is, who it is for, and the deliverable contract |
-| `/demo` | The interactive instrument: OBSERVE, RECONCILE, VERDICT, ACTION |
+| `/demo` | The interactive instrument: OBSERVE, RECONCILE, ARBITRATE, VERDICT, ACTION |
 | `/evidence` | The evidence panel, the proof index with content hashes, and the ACP / Base identifiers |
 | `/architecture` | Where the boundary sits and the failure modes it refuses to hide |
 | `/docs` | The document index and the exact reproduction commands |
@@ -226,7 +226,7 @@ The deployed app is a real client-side application with six routes. Every route 
 - **live engine** - when `python scripts/demo_api.py` is running. The page calls the instrument API, which drives the real `mnemon` arbiter over a real `sibyl-memory-client` database. Every verdict on screen was produced by that call, and a control stays disabled until the underlying call returns.
 - **recorded run** - when the instrument is not reachable. The page replays a recorded verified run whose every value is read from `proof/`.
 
-Nothing is preloaded in either mode: a step appears only after its control is used, and a control is enabled only after the previous step completed. There is no mock backend and no second engine. Runtime values come from the engine, from `proof/`, or not at all.
+Nothing is preloaded in either mode: a step appears only after its control is used, and a control is enabled only after the previous step completed. There is no mock backend and no second engine. Runtime values come from the engine, from `proof/`, or not at all. The navbar badge names the mode the page actually reached: it reads `LIVE ENGINE` only after the instrument API has answered, and `RECORDED RUN` otherwise.
 
 ### Run the instrument locally
 
@@ -454,6 +454,7 @@ scripts/
   build_check.mjs        # npm run build -- the production gate
   demo_api.py            # local instrument API over the real engine
   responsive.mjs         # structural verification across viewports
+  audit_ui.mjs           # functional audit: every route, every viewport, the whole demo
   shots.mjs              # regenerates the README assets
   base_anchor.py
   verify_base.py
@@ -466,7 +467,7 @@ app/
   evidence.json   # the same snapshot, for the instrument API
   product.html demo.html evidence.html architecture.html docs.html
                   # per-route entry files, byte-identical to index.html
-  banner.html
+  hero-sculpture.jpg
 
 docs/
   ACP_SETUP.md
@@ -525,10 +526,13 @@ python experiments/final_controls.py      # deletion, fresh-session, integrity a
 python experiments/app_evidence.py        # refresh the static evidence snapshot
 npm run build                             # production build gate
 node scripts/responsive.mjs               # 6 viewports x 6 routes, structural checks
+node scripts/audit_ui.mjs                 # functional audit: routes, links, demo, mobile menu
 node scripts/shots.mjs                    # regenerate the README assets
 ```
 
 `npm run build` fails if the rendered snapshot has drifted from `proof/` in any way, if a route in the navbar has no view, if a link points at an unknown route, if a referenced asset is missing, if an executable inline script reappears, if a secret or a raw key-shaped value leaks into client-visible output, if the local database path is exposed to the browser, or if the page reaches for server-side code.
+
+`node scripts/audit_ui.mjs` is the functional companion to that structural gate. For each of the six routes at `390x844`, `430x932`, `768x1024`, `1024x1366`, `1440x900` and `1920x1080` it records console errors, unhandled exceptions, failed requests, horizontal overflow, elements wider than the viewport, literal markup that leaked into rendered text, dead links and unlabelled controls, and asserts that no two routes render the same headings and that an unknown route renders a real not-found view. It then opens the mobile menu and checks it opens, closes and exposes every link, walks the entire `/demo` sequence asserting the verdict and the action consequence after every one of the five controls, checks the reset control re-arms the baseline, and finishes by asserting the navbar badge tells the truth about which mode the page reached. Set `MNEMON_BASE_URL` to point it at a host instead of the local files, and `MNEMON_EXPECT_LIVE=1` when that host is running `scripts/demo_api.py` so the live path is asserted rather than the recorded one.
 
 `node scripts/responsive.mjs` drives the bundled headless Chromium across `390x844`, `430x932`, `768x1024`, `1024x1366`, `1440x900` and `1920x1080`, and across all six routes. It fails on horizontal overflow, on anything wider than the viewport, on a control pushed outside it, on text below 12px, on an unlabelled control, and on a view that did not render. It then opens the mobile menu, clicks every navbar link, and runs the first demo control to prove the instrument moves and gates in order. Set `MNEMON_BASE_URL` (for example `https://mnemon-ochre.vercel.app`) to run the same checks against the deployment, where the router uses the History API instead of hash mode.
 
@@ -575,6 +579,9 @@ A verified Base action and exercised Virtuals ACP path are represented only beca
 - 17/17 integrity-audit cases end in `BLOCK` or safe reclassification
 - Production build gate passes (`npm run build`)
 - All four README frames regenerated from the app at one uniform size
+- Functional UI audit passes on all six routes at all six required viewports (`node scripts/audit_ui.mjs`)
+- The `/demo` instrument completes all five controls with the real verdict and action asserted after each step, then resets to baseline, in both recorded and live mode
+- A live instrument starts from a verified `CLEAN` baseline and refuses to start if its memory file is already held open by another instance
 - Static surface deployed to Vercel production ([mnemon-ochre.vercel.app](https://mnemon-ochre.vercel.app))
 - No mock, simulated, or placeholder claim remains on the critical path
 

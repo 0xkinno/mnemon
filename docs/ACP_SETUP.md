@@ -69,7 +69,7 @@ These are not style preferences; each one is the fix for an observed failure on 
 
 ## Current state
 
-Job `78185` completed the full lifecycle on Base Mainnet for a real `CONTESTED` claim, with settlement verified on chain and the verdict persisted into Sibyl COLD. Two earlier jobs were terminal: `77935` expired before delivery, and `77954` was rejected and refunded after a stale-runner race (see `proof/acp_arbitration_failure.json`). `77954` is terminal and cannot be revived; a fresh job is always required.
+Job `78185` completed the full lifecycle on Base Mainnet for a real `CONTESTED` claim, with settlement verified on chain and the verdict persisted into Sibyl COLD. Two earlier jobs were terminal: `77935` expired before delivery, and `77954` was rejected and refunded because its deliverable body was never retrievable by the evaluator, so the hash arrived without the content (`proof/acp_job_77954.json`). A third, `78154`, posted a 247-byte body whose on-chain hash matched, but was rejected by a stale pre-fix runner that was still subscribed to the buyer agent (see `proof/acp_arbitration_failure.json`). `77954` is terminal and cannot be revived; a fresh job is always required.
 
 The ACP outcome is anchored on Base Sepolia by transaction `0xf6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269` (block `46637732`), whose decoded event carries the same claim hash, epoch, and operation id as the Sibyl COLD witness. `proof/final_e2e_chain.json` re-derives that binding and reports `linkage_verified: true`; `proof/base_acp_resolution.json` is the anchor artifact. `experiments/final_base_link.py` performs only the minimum commitment needed to establish this linkage — it does not create another ACP job.
 
