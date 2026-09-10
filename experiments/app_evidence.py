@@ -324,6 +324,19 @@ def snapshot():
     }
 
 
+# The host serves these from the output directory as /product, /demo, and so on
+# (cleanUrls maps /demo -> demo.html). Each one is a byte-identical copy of the
+# shell, because the router reads location.pathname to pick a view. Real files
+# beat a catch-all rewrite: nothing is shadowed and no asset can be swallowed.
+ROUTES = {
+    "product": "/product",
+    "demo": "/demo",
+    "evidence": "/evidence",
+    "architecture": "/architecture",
+    "docs": "/docs",
+}
+
+
 def main():
     snap = snapshot()
     raw = json.dumps(snap, separators=(",", ":"))
@@ -332,7 +345,10 @@ def main():
     page = (APP / "index.html").read_text()
     start = page.index(BEGIN) + len(BEGIN)
     end = page.index(END, start)
-    (APP / "index.html").write_text(page[:start] + raw + page[end:], newline="\n")
+    shell = page[:start] + raw + page[end:]
+    (APP / "index.html").write_text(shell, newline="\n")
+    for slug in ROUTES:
+        (APP / (slug + ".html")).write_text(shell, newline="\n")
     print(json.dumps({
         "evidence_json": "app/evidence.json",
         "index_html": "app/index.html",
@@ -343,6 +359,7 @@ def main():
         "evidence_rows": len(snap["evidence_panel"]),
         "proof_files": len(snap["proof_index"]),
         "demo_steps": len(snap["demo"]["recorded"]["steps"]),
+        "route_files": sorted(slug + ".html" for slug in ROUTES),
     }, indent=2))
 
 

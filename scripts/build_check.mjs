@@ -406,6 +406,19 @@ check("no executable inline script in index.html", () => {
   return tags.length + " script tag(s), all either external or the JSON snapshot";
 });
 
+check("every route has a real entry file identical to the shell", () => {
+  const routes = ["product", "demo", "evidence", "architecture", "docs"];
+  const shell = readFileSync(join(APP, "index.html"), "utf8");
+  for (const slug of routes) {
+    const file = join(APP, slug + ".html");
+    if (!existsSync(file)) throw new Error("app/" + slug + ".html is missing; re-run experiments/app_evidence.py");
+    if (readFileSync(file, "utf8") !== shell) {
+      throw new Error("app/" + slug + ".html has drifted from index.html; re-run experiments/app_evidence.py");
+    }
+  }
+  return routes.length + " route files, each byte-identical to the shell";
+});
+
 check("every route has a view and every link has a route", () => {
   const js = readFileSync(join(APP, "app.js"), "utf8");
   const nav = [...js.matchAll(/\{\s*path:\s*"([^"]+)",\s*label:/g)].map((m) => m[1]);
@@ -446,13 +459,18 @@ check("no secret material in client-visible output", () => {
   // The inlined evidence snapshot carries public on-chain hashes (keccak/sha256 digests
   // and transaction hashes), so it is excluded from the hex scan. Anything else that
   // looks like key material is a real finding.
-  const start = html.indexOf(SNAPSHOT_BEGIN);
-  const snapshotFree = start === -1 ? html
-    : html.slice(0, start + SNAPSHOT_BEGIN.length) + html.slice(html.indexOf("</script>", start + SNAPSHOT_BEGIN.length));
+  // Every route file carries the same snapshot, so every HTML page is stripped
+  // of its snapshot block before the scan, and evidence.json is skipped outright.
+  const stripSnapshot = (text) => {
+    const at = text.indexOf(SNAPSHOT_BEGIN);
+    if (at === -1) return text;
+    return text.slice(0, at + SNAPSHOT_BEGIN.length) + text.slice(text.indexOf("</script>", at + SNAPSHOT_BEGIN.length));
+  };
   for (const file of listFiles(APP)) {
     const name = file.split(/[\\/]/).pop();
     if (name === "evidence.json") continue;
-    const text = name === "index.html" ? snapshotFree : readFileSync(file, "utf8");
+    const raw = readFileSync(file, "utf8");
+    const text = name.endsWith(".html") ? stripSnapshot(raw) : raw;
     for (const [re, label] of patterns) if (re.test(text)) hits.push(name + ": " + label);
   }
   if (hits.length) throw new Error(hits.join("; "));

@@ -464,6 +464,8 @@ app/
   app.css         # the surface stylesheet
   app.js          # client-side router, six views, demo instrument
   evidence.json   # the same snapshot, for the instrument API
+  product.html demo.html evidence.html architecture.html docs.html
+                  # per-route entry files, byte-identical to index.html
   banner.html
 
 docs/

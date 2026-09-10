@@ -12,7 +12,7 @@ MNEMON ships two independent surfaces, and only one of them is deployable to a p
 | Repository | <https://github.com/0xkinno/mnemon> |
 | Framework setting | Other (the static surface, not a Python service) |
 
-The Vercel build runs `node scripts/build_check.mjs` as its build command, so a deployment cannot go out if the page has drifted from `proof/`. `vercel.json` also rewrites the six client-side routes (`/product`, `/demo`, `/evidence`, `/architecture`, `/docs`) onto `app/index.html`, so deep links resolve instead of 404ing.
+The Vercel build runs `node scripts/build_check.mjs` as its build command, so a deployment cannot go out if the page has drifted from `proof/`. Deep links resolve because the build emits a real entry file per route (`app/product.html`, `app/demo.html`, `app/evidence.html`, `app/architecture.html`, `app/docs.html`), each a byte-identical copy of `app/index.html`; `cleanUrls` serves them at `/product`, `/demo`, and so on. Real files are used rather than a catch-all rewrite so that no asset request can be swallowed, and `scripts/build_check.mjs` fails the build if any route file drifts from the shell.
 
 ### Environment variables
 
