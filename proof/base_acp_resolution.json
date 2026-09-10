@@ -1,0 +1,34 @@
+{
+  "purpose": "Base commitment binding the ACP-resolved MNEMON claim to chain",
+  "resolution": {
+    "acp_job_id": "78185",
+    "entity": "risk_verdict/protocol_x",
+    "epoch": "acp-resolution-78185",
+    "claim_hash_sha256": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+    "claim_hash_bytes32": "0x6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+    "verdict": "CLEAN",
+    "operation_id": "op-acp-resolution-78185",
+    "writer_id": "acp-evaluator"
+  },
+  "anchor": {
+    "chain_id": 84532,
+    "network": "base-sepolia",
+    "contract_address": "0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f",
+    "tx_hash": "f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269",
+    "receipt_status": 1,
+    "block_number": 46637732,
+    "decoded_event": {
+      "entity": "risk_verdict/protocol_x",
+      "epoch": "acp-resolution-78185",
+      "claimHash": "0x6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+      "verdict": "CLEAN",
+      "operationId": "op-acp-resolution-78185"
+    },
+    "verified_at": "2026-09-10T12:35:51.612Z",
+    "rpc": "https://sepolia.base.org",
+    "from": "0x64cf581e8EaA400FD155c7880131Dfd9efB52FFd",
+    "explorer": "https://sepolia.basescan.org/tx/f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269"
+  },
+  "claim_hash_bound": true,
+  "note": "Anchor of the resolved claim. proof/base_transaction.json remains the record of the earlier epoch-clean anchor and is not modified."
+}

@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-09-10T12:55:29.874Z",
+  "purpose": "A brand new interpreter reconstructs the ACP-resolved verdict from persisted Sibyl Memory alone.",
+  "parent": {
+    "pid": 32748,
+    "verdict": "CLEAN",
+    "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04"
+  },
+  "child": {
+    "pid": 26448,
+    "verdict": "CLEAN",
+    "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+    "writer_id": "acp-evaluator",
+    "epoch_id": "acp-resolution-78185",
+    "claim_count": 1,
+    "globals_injected": false
+  },
+  "sequence": [
+    "prior process wrote the ACP resolution into Sibyl Memory",
+    "process ended",
+    "new interpreter started with no cache, globals, or fixture injection",
+    "MNEMON reconstructed the resolved state from persistence"
+  ],
+  "checks": {
+    "child_is_a_new_process": true,
+    "child_reconstructs_clean": true,
+    "child_matches_parent_verdict": true,
+    "child_matches_parent_claim_hash": true,
+    "child_matches_parent_writer": true,
+    "child_sees_single_settled_claim": true
+  },
+  "fresh_session_verified": true
+}

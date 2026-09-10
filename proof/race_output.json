@@ -1,0 +1,125 @@
+{
+  "cold": [
+    {
+      "claim_hash": "sha256:913e76aedc5c3e2e38873b784de64a5daeb06c8d369f9158484dc258db04a9b5",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "epoch-0",
+      "evidence": {
+        "source": "real-sibyl-race",
+        "strength": "weak"
+      },
+      "kind": "mnemon",
+      "operation_id": "op-watcher-A-epoch-0",
+      "phase": "commit",
+      "status": "SAFE",
+      "writer_id": "watcher-A"
+    },
+    {
+      "claim_hash": "sha256:f6764c8a50d886ee147e3c3d1b9fa9841ccef31f422fcb3bdc670e9f8dcc8a57",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "epoch-0",
+      "evidence": {
+        "source": "real-sibyl-race",
+        "strength": "strong"
+      },
+      "kind": "mnemon",
+      "operation_id": "op-watcher-B-epoch-0",
+      "phase": "commit",
+      "status": "CRITICAL",
+      "writer_id": "watcher-B"
+    }
+  ],
+  "exceptions": false,
+  "mnemon": {
+    "claims": [
+      {
+        "claim_hash": "sha256:f6764c8a50d886ee147e3c3d1b9fa9841ccef31f422fcb3bdc670e9f8dcc8a57",
+        "entity": {
+          "category": "risk_verdict",
+          "name": "protocol_x"
+        },
+        "epoch_id": "epoch-0",
+        "evidence": {
+          "source": "real-sibyl-race",
+          "strength": "strong"
+        },
+        "operation_id": "op-watcher-B-epoch-0",
+        "status": "CRITICAL",
+        "writer_id": "watcher-B"
+      },
+      {
+        "claim_hash": "sha256:913e76aedc5c3e2e38873b784de64a5daeb06c8d369f9158484dc258db04a9b5",
+        "entity": {
+          "category": "risk_verdict",
+          "name": "protocol_x"
+        },
+        "epoch_id": "epoch-0",
+        "evidence": {
+          "source": "real-sibyl-race",
+          "strength": "weak"
+        },
+        "kind": "mnemon",
+        "operation_id": "op-watcher-A-epoch-0",
+        "phase": "commit",
+        "status": "SAFE",
+        "writer_id": "watcher-A"
+      }
+    ],
+    "current": {
+      "claim_hash": "sha256:f6764c8a50d886ee147e3c3d1b9fa9841ccef31f422fcb3bdc670e9f8dcc8a57",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "epoch-0",
+      "evidence": {
+        "source": "real-sibyl-race",
+        "strength": "strong"
+      },
+      "operation_id": "op-watcher-B-epoch-0",
+      "status": "CRITICAL",
+      "writer_id": "watcher-B"
+    },
+    "status": "CONTESTED"
+  },
+  "processes": [
+    {
+      "committed_ns": 1000400,
+      "pid": 42152,
+      "started_ns": 1788932969435516500,
+      "status": "SAFE",
+      "warm_ns": 20377400,
+      "watcher_id": "watcher-A"
+    },
+    {
+      "committed_ns": 999600,
+      "pid": 19196,
+      "started_ns": 1788932969456008500,
+      "status": "CRITICAL",
+      "warm_ns": 21495200,
+      "watcher_id": "watcher-B"
+    }
+  ],
+  "trial": 0,
+  "warm": {
+    "claim_hash": "sha256:f6764c8a50d886ee147e3c3d1b9fa9841ccef31f422fcb3bdc670e9f8dcc8a57",
+    "entity": {
+      "category": "risk_verdict",
+      "name": "protocol_x"
+    },
+    "epoch_id": "epoch-0",
+    "evidence": {
+      "source": "real-sibyl-race",
+      "strength": "strong"
+    },
+    "operation_id": "op-watcher-B-epoch-0",
+    "status": "CRITICAL",
+    "writer_id": "watcher-B"
+  }
+}

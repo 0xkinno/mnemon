@@ -1,0 +1,26 @@
+{
+  "acp_job_id": "78185",
+  "persisted": {
+    "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+    "entity": {
+      "category": "risk_verdict",
+      "name": "protocol_x"
+    },
+    "epoch_id": "acp-resolution-78185",
+    "evidence": {
+      "acp_job_id": "78185",
+      "adjudicated_at": "2026-09-10T11:17:43.522Z",
+      "deliverable_digest": "sha256:dc64b03c20801dd3aa11e83b2e4fa359ef2a245a6b6e83f889bb8d7aba49fa5f",
+      "evidence_digest": "sha256:302a532c95d1fcb09f82ea54c8971dd9daf3c764abc79d0e567e9c6f075ac269",
+      "reason_code": "safety-dominant-witness-upheld",
+      "resolved_epoch": "acp-epoch-contested",
+      "source": "acp"
+    },
+    "operation_id": "op-acp-resolution-78185",
+    "status": "CRITICAL",
+    "writer_id": "acp-evaluator"
+  },
+  "pid": 29020,
+  "post_state": "CLEAN",
+  "pre_state": "CONTESTED"
+}

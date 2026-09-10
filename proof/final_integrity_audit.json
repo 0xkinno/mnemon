@@ -1,0 +1,187 @@
+{
+  "generated_at": "2026-09-10T12:55:29.876Z",
+  "purpose": "Final integrity audit: every unsafe condition must BLOCK or be safely reclassified; none may silently become CLEAN.",
+  "entity_key": "risk_verdict/protocol_x",
+  "cases": [
+    {
+      "case": "wrong_entity",
+      "expected": "UNWITNESSED",
+      "observed": "UNWITNESSED",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": ""
+    },
+    {
+      "case": "wrong_epoch",
+      "expected": "UNWITNESSED",
+      "observed": "UNWITNESSED",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": "claim hash covers status+evidence only, so a mutated epoch survives hash validation but loses its witness"
+    },
+    {
+      "case": "altered_claim",
+      "expected": "INVALID",
+      "observed": "INVALID",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": ""
+    },
+    {
+      "case": "altered_claim_hash",
+      "expected": "INVALID",
+      "observed": "INVALID",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": ""
+    },
+    {
+      "case": "missing_witness",
+      "expected": "UNWITNESSED",
+      "observed": "UNWITNESSED",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": ""
+    },
+    {
+      "case": "deleted_memory",
+      "expected": "UNWITNESSED",
+      "observed": "UNWITNESSED",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": ""
+    },
+    {
+      "case": "stale_evidence",
+      "expected": "UNWITNESSED",
+      "observed": "UNWITNESSED",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": "the current WARM value is backed only by an older epoch's witness, so it must not be treated as settled"
+    },
+    {
+      "case": "duplicate_acp_result",
+      "expected": "CLEAN",
+      "observed": "CLEAN",
+      "action": "ALLOWED",
+      "passed": true,
+      "must_block": false,
+      "fails_closed": true,
+      "note": "re-committing the identical ACP witness is idempotent (same operation_id + claim_hash)",
+      "claim_count_before": 1,
+      "claim_count_after": 1
+    },
+    {
+      "case": "replayed_acp_job_result",
+      "expected": "CLEAN",
+      "observed": "CLEAN",
+      "action": "ALLOWED",
+      "passed": true,
+      "must_block": false,
+      "fails_closed": true,
+      "note": "a replayed ACP job result does not create a second witness or change the verdict"
+    },
+    {
+      "case": "malformed_deliverable/valid_control",
+      "expected": "accepted",
+      "observed": "accepted",
+      "action": "ALLOWED",
+      "passed": true,
+      "must_block": false,
+      "fails_closed": true,
+      "note": "validated by scripts/acp_preflight.mjs, the same rule the evaluator enforces"
+    },
+    {
+      "case": "malformed_deliverable/not_json",
+      "expected": "rejected",
+      "observed": "rejected",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": "validated by scripts/acp_preflight.mjs, the same rule the evaluator enforces"
+    },
+    {
+      "case": "malformed_deliverable/missing_field",
+      "expected": "rejected",
+      "observed": "rejected",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": "validated by scripts/acp_preflight.mjs, the same rule the evaluator enforces"
+    },
+    {
+      "case": "malformed_deliverable/non_string_field",
+      "expected": "rejected",
+      "observed": "rejected",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": "validated by scripts/acp_preflight.mjs, the same rule the evaluator enforces"
+    },
+    {
+      "case": "malformed_deliverable/empty_string_field",
+      "expected": "rejected",
+      "observed": "rejected",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": "validated by scripts/acp_preflight.mjs, the same rule the evaluator enforces"
+    },
+    {
+      "case": "base_receipt_binding",
+      "expected": "match",
+      "observed": "match",
+      "action": "ALLOWED",
+      "passed": true,
+      "must_block": false,
+      "fails_closed": true,
+      "note": "live re-read of the Base Sepolia receipt against the Sibyl COLD witness claim hash"
+    },
+    {
+      "case": "base_receipt_mismatch",
+      "expected": "mismatch",
+      "observed": "mismatch",
+      "action": "BLOCKED",
+      "passed": true,
+      "must_block": true,
+      "fails_closed": true,
+      "note": "a one-character divergence in the committed claim hash is detected by the same comparison"
+    },
+    {
+      "case": "fresh_process_restart",
+      "expected": "CLEAN",
+      "observed": "CLEAN",
+      "action": "ALLOWED",
+      "passed": true,
+      "must_block": false,
+      "fails_closed": true,
+      "note": ""
+    }
+  ],
+  "checks": {
+    "all_cases_passed": true,
+    "no_unsafe_case_became_clean": true,
+    "every_control_fails_closed": true,
+    "control_case_is_clean": true
+  },
+  "silently_clean_cases": [],
+  "audit_passed": true
+}

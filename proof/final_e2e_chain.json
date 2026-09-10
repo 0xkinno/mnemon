@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-09-10T12:40:55.962Z",
+  "job_id": "78185",
+  "entity_key": "risk_verdict/protocol_x",
+  "epoch_id": "acp-epoch-contested",
+  "sibyl_evidence": {
+    "source": "sibyl-memory-client==0.8.1",
+    "database": ".acp-memory.db",
+    "entity_key": "risk_verdict/protocol_x",
+    "contested_epoch_id": "acp-epoch-contested",
+    "operation_ids": [
+      "op-acp-A",
+      "op-acp-B"
+    ],
+    "writer_ids": [
+      "watcher-A",
+      "watcher-B"
+    ],
+    "claim_a": {
+      "status": "SAFE",
+      "claim_hash": "sha256:e30216a75afcc56cd91b52b7184b7dcba08f6deb3d62996b11754e63227ff8d0"
+    },
+    "claim_b": {
+      "status": "CRITICAL",
+      "claim_hash": "sha256:302a532c95d1fcb09f82ea54c8971dd9daf3c764abc79d0e567e9c6f075ac269"
+    },
+    "mnemon_verdict_before_resolution": "CONTESTED"
+  },
+  "acp": {
+    "job_id": "78185",
+    "offering": "independent_memory_adjudication",
+    "buyer_agent": "0x0b5938ecca6631584e9407d03b5bce7448efc094",
+    "provider_agent": "0xb8031b9be5091990cfb93897be52dd56d4794c97",
+    "final_onchain_status": "COMPLETED",
+    "deliverable": {
+      "decision": "UPHELD",
+      "winning_claim": "CRITICAL",
+      "reason_code": "safety-dominant-witness-upheld",
+      "evidence_digest": "sha256:302a532c95d1fcb09f82ea54c8971dd9daf3c764abc79d0e567e9c6f075ac269",
+      "adjudicated_at": "2026-09-10T11:17:43.522Z"
+    },
+    "deliverable_digest": "sha256:dc64b03c20801dd3aa11e83b2e4fa359ef2a245a6b6e83f889bb8d7aba49fa5f",
+    "deliverable_keccak256": "0xd78e765e05b987568f0d60a3a0dc2e97b6bcc0d5418b5f8a9ef79c2752120b0d",
+    "deliverable_bytes": 231,
+    "onchain_submitted_hash": "0xd78e765e05b987568f0d60a3a0dc2e97b6bcc0d5418b5f8a9ef79c2752120b0d",
+    "settlement": {
+      "payment_released_to_provider_raw": "9000",
+      "evaluator_fee_raw": "500",
+      "escrow_raw": "10000"
+    },
+    "evidence": "proof/acp_job_78185.json"
+  },
+  "cold_witness": {
+    "operation_id": "op-acp-resolution-78185",
+    "epoch_id": "acp-resolution-78185",
+    "writer_id": "acp-evaluator",
+    "claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+    "status": "CRITICAL",
+    "evidence_source": "acp",
+    "acp_job_id": "78185",
+    "evidence": "proof/acp_cold_result.json"
+  },
+  "mnemon_final": {
+    "verdict": "CLEAN",
+    "action": "ALLOWED",
+    "live_claim_hash": "sha256:6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+    "live_epoch_id": "acp-resolution-78185",
+    "live_writer_id": "acp-evaluator",
+    "claim_count": 1
+  },
+  "base_commitment": {
+    "rpc": "https://sepolia.base.org",
+    "chain_id": 84532,
+    "network": "base-sepolia",
+    "contract_address": "0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f",
+    "tx_hash": "f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269",
+    "receipt_status": 1,
+    "block_number": 46637732,
+    "decoded_event": {
+      "entity": "risk_verdict/protocol_x",
+      "epoch": "acp-resolution-78185",
+      "claimHash": "0x6c7703f3c9945eb49a8beafe1f86bbb182102f84e16897e1942cad566d5cfe04",
+      "verdict": "CLEAN",
+      "operationId": "op-acp-resolution-78185"
+    },
+    "explorer": "https://sepolia.basescan.org/tx/f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269"
+  },
+  "link_checks": {
+    "job_is_the_completed_job": true,
+    "onchain_final_status_completed": true,
+    "onchain_no_rejection": true,
+    "deliverable_bytes_match_onchain_hash": true,
+    "submitted_hash_equals_keccak_of_body": true,
+    "deliverable_digest_matches_artifact": true,
+    "resolved_claim_is_the_upheld_claim": true,
+    "evidence_digest_is_a_contested_claim_hash": true,
+    "warm_pre_state_was_contested": true,
+    "cold_witness_persisted": true,
+    "cold_claim_hash_matches_live_memory": true,
+    "live_memory_still_reads_clean": true,
+    "live_verdict_is_uncontested": true,
+    "live_current_is_acp_writer": true,
+    "base_receipt_status_ok": true,
+    "base_event_epoch_matches_cold_epoch": true,
+    "base_event_operation_matches_cold_operation": true,
+    "base_event_verdict_matches_cold_state": true,
+    "base_event_claim_hash_binds_cold_witness": true
+  },
+  "linkage_verified": true,
+  "note": "The exact claim hash produced by the ACP resolution and stored as the Sibyl COLD witness is the value committed by the Base Sepolia transaction. The pre-existing proof/base_transaction.json anchor is an earlier epoch and is not part of this chain."
+}

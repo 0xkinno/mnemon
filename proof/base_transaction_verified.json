@@ -1,0 +1,15 @@
+{
+  "chain_id": 84532,
+  "tx_hash": "293e4e55ad6bce6fa99a14e5fcb25851bd4c34df3b67073f7fd722d21076996e",
+  "receipt_status": 1,
+  "block_number": 46585270,
+  "contract_address": "0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f",
+  "decoded_event": {
+    "entity": "risk_verdict/protocol_x",
+    "epoch": "epoch-clean",
+    "claimHash": "0x0067fa32186694de0700069e9aa469d05681839573ef7bd211ea026c8a0dfd27",
+    "verdict": "CLEAN",
+    "operationId": "op-clean"
+  },
+  "claim_hash_matches": true
+}

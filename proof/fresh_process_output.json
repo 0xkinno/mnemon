@@ -1,0 +1,69 @@
+{
+  "claims": [
+    {
+      "claim_hash": "sha256:b7587e2d3c486f1ac06ebc28e67189b4474da182180dde7773ac2d2dc73796de",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "epoch-demo",
+      "evidence": {
+        "source": "base",
+        "summary": "safe"
+      },
+      "operation_id": "op-b",
+      "status": "SAFE",
+      "writer_id": "watcher-b"
+    },
+    {
+      "claim_hash": "sha256:d47294c300eadb1b00a8d90e1ae684b0c3241fa33ef61ad6a124d584e2300f94",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "epoch-demo",
+      "evidence": {
+        "source": "base",
+        "summary": "critical"
+      },
+      "kind": "mnemon",
+      "operation_id": "op-a",
+      "phase": "commit",
+      "status": "CRITICAL",
+      "writer_id": "auditor-a"
+    },
+    {
+      "claim_hash": "sha256:0067fa32186694de0700069e9aa469d05681839573ef7bd211ea026c8a0dfd27",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "epoch-demo",
+      "evidence": {
+        "source": "base",
+        "summary": "stable"
+      },
+      "kind": "mnemon",
+      "operation_id": "op-clean",
+      "phase": "commit",
+      "status": "SAFE",
+      "writer_id": "control"
+    }
+  ],
+  "current": {
+    "claim_hash": "sha256:b7587e2d3c486f1ac06ebc28e67189b4474da182180dde7773ac2d2dc73796de",
+    "entity": {
+      "category": "risk_verdict",
+      "name": "protocol_x"
+    },
+    "epoch_id": "epoch-demo",
+    "evidence": {
+      "source": "base",
+      "summary": "safe"
+    },
+    "operation_id": "op-b",
+    "status": "SAFE",
+    "writer_id": "watcher-b"
+  },
+  "status": "CONTESTED"
+}

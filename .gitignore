@@ -1,0 +1,14 @@
+.env
+.env.local
+.realvenv/
+.venv/
+.runs/
+.real-races/
+*.db
+__pycache__/
+.pytest_cache/
+pytest-cache-files-*/
+.testdata/
+
+research/
+node_modules/

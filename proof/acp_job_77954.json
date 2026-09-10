@@ -1,0 +1,31 @@
+{
+  "status": "terminal_rejected_no_completion_claimed",
+  "acp_job_id": "77954",
+  "chain_id": 8453,
+  "network": "base-mainnet",
+  "acp_contract": "0x238E541BfefD82238730D00a2208E5497F1832E0",
+  "offchain_job_id": "01a088fd-87ef-7fc3-862e-16c65b08daea",
+  "client_agent": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+  "evaluator_agent": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+  "provider_agent": "0xB8031B9Be5091990CFB93897Be52dd56D4794C97",
+  "offering": "independent_memory_adjudication",
+  "budget_usdc": 0.01,
+  "created_at": "2026-09-10T01:45:11.911Z",
+  "expired_at": "2026-09-10T02:15:01.000Z",
+  "terminal_status_at": "2026-09-10T02:04:49.755Z",
+  "final_onchain_status": "REJECTED",
+  "final_onchain_status_code": 4,
+  "observed_events": [
+    { "event": "JobCreated", "when": "2026-09-10T01:45:09.000Z", "block": "51107681", "tx": "0xc09eb002950dfc286fe3055a653aecf531ae4c4b701ac89dd9e1e5b16c94aec1", "args": { "client": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094", "provider": "0xB8031B9Be5091990CFB93897Be52dd56D4794C97", "evaluator": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094", "expiredAt": "1789006501", "hook": "0x0000000000000000000000000000000000000000" } },
+    { "event": "BudgetSet", "when": "2026-09-10T01:49:13.000Z", "block": "51107803", "tx": "0x0ea958e9b8ab8caade1b0f9df3de01f725d57bca901f25422fc77bf273857a18", "args": { "amount_usdc": "0.01" } },
+    { "event": "JobFunded", "when": "2026-09-10T01:49:23.000Z", "block": "51107808", "tx": "0xe8a367601384e93b1dedcbebe2865cc35b65caeb0dbd6b9335eb10153134c222", "args": { "client": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094", "amount_usdc": "0.01" } },
+    { "event": "JobSubmitted", "when": "2026-09-10T02:04:41.000Z", "block": "51108267", "tx": "0xc06423496af11eaaa6fbdcd3257e69a52eba025de3015037957f07474cd70e66", "args": { "provider": "0xB8031B9Be5091990CFB93897Be52dd56D4794C97", "deliverable": "0x28a538bf9f973668b74ecb97b117b13cea23bfef3f1bb0c6f4ee0994c697bcb4" } },
+    { "event": "Refunded", "when": "2026-09-10T02:04:49.000Z", "block": "51108271", "tx": "0x38b6ae0ad072f5ef730f9b1856c88cf71c82adb8e29970409e2eb9d90c8356b8", "args": { "client": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094", "amount_usdc": "0.01" } },
+    { "event": "JobRejected", "when": "2026-09-10T02:04:49.000Z", "block": "51108271", "tx": "0x38b6ae0ad072f5ef730f9b1856c88cf71c82adb8e29970409e2eb9d90c8356b8", "args": { "rejector": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094", "reason_text": "malformed-deliverable" } }
+  ],
+  "root_cause": "The provider submitted a deliverable on-chain, but no deliverable content was retrievable for the evaluator session; scripts/acp_arbitrate.ts rejects on JSON.parse failure with reason 'malformed-deliverable'. Escrow was refunded to the client.",
+  "deliverable_content_available": false,
+  "sibyl_cold_result_persisted": false,
+  "verification": { "method": "eth_call getJob(77954) + eth_getLogs decode against ACP v2 ABI", "rpc": "https://mainnet.base.org", "verified_at": "2026-09-10T08:11:02.035Z", "latest_block_seen": "51115003" },
+  "note": "Job 77954 is terminal (REJECTED) and refunded. No ACP completion or adjudication result is claimed, and nothing was persisted to Sibyl COLD from this job."
+}

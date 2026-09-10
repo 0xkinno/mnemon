@@ -1,0 +1,12 @@
+{
+  "claim_a": "SAFE",
+  "claim_b": "CRITICAL",
+  "claim_hash_a": "sha256:e30216a75afcc56cd91b52b7184b7dcba08f6deb3d62996b11754e63227ff8d0",
+  "claim_hash_b": "sha256:302a532c95d1fcb09f82ea54c8971dd9daf3c764abc79d0e567e9c6f075ac269",
+  "entity_key": "risk_verdict/protocol_x",
+  "epoch_id": "acp-epoch-contested",
+  "evidence_refs": [
+    "sibyl://cold/op-acp-A#watcher-A",
+    "sibyl://cold/op-acp-B#watcher-B"
+  ]
+}

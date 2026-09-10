@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-09-10T12:54:22.330Z",
+  "purpose": "Prove Sibyl Memory is load-bearing: ACP evidence and the Base commitment are both present on disk, yet removing the memory layer removes the ability to establish CLEAN.",
+  "entity_key": "risk_verdict/protocol_x",
+  "database": ".acp-memory.db",
+  "phases": [
+    {
+      "phase": "sibyl_available",
+      "verdict": "CLEAN",
+      "action": "ALLOWED",
+      "claim_count": 1
+    },
+    {
+      "phase": "entity_deleted",
+      "verdict": "UNWITNESSED",
+      "action": "BLOCKED",
+      "claim_count": 0
+    },
+    {
+      "phase": "memory_unavailable",
+      "verdict": "UNWITNESSED",
+      "action": "BLOCKED",
+      "claim_count": 0
+    }
+  ],
+  "substitutes_present_but_insufficient": {
+    "acp_arbitration_present": true,
+    "acp_cold_result_present": true,
+    "base_resolution_anchor_present": true
+  },
+  "checks": {
+    "baseline_is_clean": true,
+    "baseline_action_allowed": true,
+    "entity_deletion_yields_unwitnessed": true,
+    "entity_deletion_blocks": true,
+    "missing_memory_yields_unwitnessed": true,
+    "missing_memory_blocks": true,
+    "acp_and_base_cannot_substitute": true,
+    "no_phase_silently_clean_after_removal": true
+  },
+  "deletion_control_verified": true,
+  "note": "Deletion and unavailability both fail closed. Neither the persisted ACP arbitration result nor the verified Base anchor can substitute for the witness that lives in Sibyl Memory."
+}

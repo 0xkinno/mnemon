@@ -1,0 +1,47 @@
+{
+  "cases": [
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    },
+    {
+      "naive": "SAFE",
+      "protected": "CONTESTED"
+    }
+  ],
+  "baseline_false_clean": 10,
+  "mnemon_false_clean": 0,
+  "clean_controls_blocked": 0
+}

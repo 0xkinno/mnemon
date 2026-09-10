@@ -1,0 +1,125 @@
+{
+  "acp_job_id": "78154",
+  "chain_id": 8453,
+  "network": "base-mainnet",
+  "acp_contract": "0x238E541BfefD82238730D00a2208E5497F1832E0",
+  "rpc": "https://mainnet.base.org",
+  "inspected_at": "2026-09-10T11:14:17.244Z",
+  "latest_block": "51124753",
+  "search_block_from": "51122754",
+  "blocks_scanned": "2000",
+  "creation_event_found": true,
+  "on_chain_job": {
+    "client": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+    "status_code": 4,
+    "status": "REJECTED",
+    "provider": "0xB8031B9Be5091990CFB93897Be52dd56D4794C97",
+    "expired_at_unix": 1789038065,
+    "expired_at_iso": "2026-09-10T11:01:05.000Z",
+    "evaluator": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+    "hook": "0x0000000000000000000000000000000000000000",
+    "budget_raw": "10000",
+    "budget_usdc": 0.01
+  },
+  "final_status": "REJECTED",
+  "rejected": true,
+  "rejection_reason": "malformed-deliverable",
+  "observed_events": [
+    {
+      "event": "JobRejected",
+      "block": "51123763",
+      "tx": "0x84af4210142d49be9fbbc0576bf3ead3643a2de87b33b09aab0f8bda97558b12",
+      "args": {
+        "rejector": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+        "reason": "0x6d616c666f726d65642d64656c6976657261626c650000000000000000000000",
+        "reason_text": "malformed-deliverable"
+      },
+      "when": "2026-09-10T10:41:13.000Z"
+    },
+    {
+      "event": "Refunded",
+      "block": "51123763",
+      "tx": "0x84af4210142d49be9fbbc0576bf3ead3643a2de87b33b09aab0f8bda97558b12",
+      "args": {
+        "client": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+        "amount": "10000"
+      },
+      "when": "2026-09-10T10:41:13.000Z"
+    },
+    {
+      "event": "JobSubmitted",
+      "block": "51123760",
+      "tx": "0x7e61f4cb9106a3542a148ad102fd381ee70bee45f24bf8e84999727076bd5e1d",
+      "args": {
+        "provider": "0xB8031B9Be5091990CFB93897Be52dd56D4794C97",
+        "deliverable": "0x6bfdc893bab5b3a96c201deb41af02012a40368cce27e36b3ff49e75038ee975"
+      },
+      "when": "2026-09-10T10:41:07.000Z"
+    },
+    {
+      "event": "JobFunded",
+      "block": "51123485",
+      "tx": "0x7785b463abb8633a6d6fca6d03e717f2293a0a723f19ae24494576cbf98d5590",
+      "args": {
+        "client": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+        "amount": "10000"
+      },
+      "when": "2026-09-10T10:31:57.000Z"
+    },
+    {
+      "event": "BudgetSet",
+      "block": "51123482",
+      "tx": "0x5db0d0b9cf4eddc1bf49247b5ccd14b0847da989c27a70189f1ac0d16cfafee1",
+      "args": {
+        "amount": "10000"
+      },
+      "when": "2026-09-10T10:31:51.000Z"
+    },
+    {
+      "event": "JobCreated",
+      "block": "51123462",
+      "tx": "0xad79de1e5690206cfb2ed3e6fb0e66b3ce3bcbd23c4c0747e79897bc0ca10e18",
+      "args": {
+        "client": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+        "provider": "0xB8031B9Be5091990CFB93897Be52dd56D4794C97",
+        "evaluator": "0x0B5938EcCA6631584e9407d03B5Bce7448EFC094",
+        "expiredAt": "1789038065",
+        "hook": "0x0000000000000000000000000000000000000000"
+      },
+      "when": "2026-09-10T10:31:11.000Z"
+    }
+  ],
+  "timeline": [
+    {
+      "when": "2026-09-10T10:41:13.000Z",
+      "event": "JobRejected",
+      "block": "51123763"
+    },
+    {
+      "when": "2026-09-10T10:41:13.000Z",
+      "event": "Refunded",
+      "block": "51123763"
+    },
+    {
+      "when": "2026-09-10T10:41:07.000Z",
+      "event": "JobSubmitted",
+      "block": "51123760"
+    },
+    {
+      "when": "2026-09-10T10:31:57.000Z",
+      "event": "JobFunded",
+      "block": "51123485"
+    },
+    {
+      "when": "2026-09-10T10:31:51.000Z",
+      "event": "BudgetSet",
+      "block": "51123482"
+    },
+    {
+      "when": "2026-09-10T10:31:11.000Z",
+      "event": "JobCreated",
+      "block": "51123462"
+    }
+  ],
+  "log_scan_truncated": false
+}

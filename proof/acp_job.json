@@ -1,0 +1,12 @@
+{
+  "status": "expired_before_delivery",
+  "acp_job_id": "77935",
+  "chain_id": 8453,
+  "buyer_agent": "0x0b5938ecca6631584e9407d03b5bce7448efc094",
+  "provider_agent": "0xb8031b9be5091990cfb93897be52dd56d4794c97",
+  "offering": "independent_memory_adjudication",
+  "observed_events": ["connected", "job.created", "budget.set", "job.funded", "job.expired"],
+  "funded_amount_usdc": 0.01,
+  "failure": "Provider v2 deliverable submission unavailable through the installed CLI; the job expired before delivery.",
+  "note": "Real job creation and funding succeeded. No deliverable or completion is claimed."
+}

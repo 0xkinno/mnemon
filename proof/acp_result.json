@@ -1,0 +1,35 @@
+{
+    "status":  "completed",
+    "acp_job_id":  "78185",
+    "chain_id":  8453,
+    "network":  "base-mainnet",
+    "acp_contract":  "0x238E541BfefD82238730D00a2208E5497F1832E0",
+    "final_onchain_status":  "COMPLETED",
+    "final_onchain_status_code":  3,
+    "settlement":  {
+                       "payment_released_to_provider_usdc":  0.009,
+                       "evaluator_fee_usdc":  0.0005,
+                       "escrow_usdc":  0.01
+                   },
+    "deliverable":  {
+                        "winning_claim":  "CRITICAL",
+                        "adjudicated_at":  "2026-09-10T11:17:43.522Z",
+                        "reason_code":  "safety-dominant-witness-upheld",
+                        "evidence_digest":  "sha256:302a532c95d1fcb09f82ea54c8971dd9daf3c764abc79d0e567e9c6f075ac269",
+                        "decision":  "UPHELD"
+                    },
+    "deliverable_digest":  "sha256:dc64b03c20801dd3aa11e83b2e4fa359ef2a245a6b6e83f889bb8d7aba49fa5f",
+    "deliverable_keccak256":  "0xd78e765e05b987568f0d60a3a0dc2e97b6bcc0d5418b5f8a9ef79c2752120b0d",
+    "onchain_deliverable_hash_binding_verified":  true,
+    "sibyl_cold_result_persisted":  true,
+    "sibyl_cold_transition":  "CONTESTED -> CLEAN",
+    "fresh_process_reconstruction_verified":  true,
+    "artifacts":  [
+                      "proof/acp_job_78185.json",
+                      "proof/acp_arbitration.json",
+                      "proof/acp_deliverable.json",
+                      "proof/acp_cold_result.json",
+                      "proof/acp_fresh_process.json"
+                  ],
+    "history":  "Job 77935 expired before delivery (proof/acp_job.json). Job 77954 was rejected as malformed-deliverable and refunded after a stale-runner race, not a provider posting failure (proof/acp_job_78154.json, proof/acp_arbitration_failure.json). Both are terminal; job 78185 is the completed lifecycle."
+}

@@ -1,0 +1,17 @@
+{
+  "name": "mnemon-acp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build_check.mjs",
+    "acp:check": "tsx scripts/acp_arbitrate.ts --check",
+    "acp:inspect": "tsx scripts/acp_inspect.ts"
+  },
+  "dependencies": {
+    "@account-kit/infra": "latest",
+    "@virtuals-protocol/acp-node-v2": "latest",
+    "dotenv": "latest",
+    "tsx": "latest",
+    "viem": "latest"
+  }
+}

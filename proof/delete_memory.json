@@ -1,0 +1,9 @@
+{
+  "action": "BLOCKED",
+  "memory_removed": true,
+  "verdict": {
+    "claims": [],
+    "reason": "no current WARM claim",
+    "status": "UNWITNESSED"
+  }
+}

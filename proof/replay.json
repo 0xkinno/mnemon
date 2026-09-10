@@ -1,0 +1,101 @@
+{
+  "first": {
+    "claims": [
+      {
+        "claim_hash": "sha256:9cefee55d8e5eda42ce590ad975408efa6b70920d7a49adb941c7504c44374d8",
+        "entity": {
+          "category": "risk_verdict",
+          "name": "protocol_x"
+        },
+        "epoch_id": "proof-epoch",
+        "evidence": {
+          "source": "proof"
+        },
+        "operation_id": "proof-b",
+        "status": "CRITICAL",
+        "writer_id": "B"
+      },
+      {
+        "claim_hash": "sha256:2deadabea432deaf13f60012960c67da9abbb77ce53faa8f0d68163d751faf1b",
+        "entity": {
+          "category": "risk_verdict",
+          "name": "protocol_x"
+        },
+        "epoch_id": "proof-epoch",
+        "evidence": {
+          "source": "proof"
+        },
+        "kind": "mnemon",
+        "operation_id": "proof-a",
+        "phase": "commit",
+        "status": "SAFE",
+        "writer_id": "A"
+      }
+    ],
+    "current": {
+      "claim_hash": "sha256:9cefee55d8e5eda42ce590ad975408efa6b70920d7a49adb941c7504c44374d8",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "proof-epoch",
+      "evidence": {
+        "source": "proof"
+      },
+      "operation_id": "proof-b",
+      "status": "CRITICAL",
+      "writer_id": "B"
+    },
+    "status": "CONTESTED"
+  },
+  "identical": true,
+  "second": {
+    "claims": [
+      {
+        "claim_hash": "sha256:9cefee55d8e5eda42ce590ad975408efa6b70920d7a49adb941c7504c44374d8",
+        "entity": {
+          "category": "risk_verdict",
+          "name": "protocol_x"
+        },
+        "epoch_id": "proof-epoch",
+        "evidence": {
+          "source": "proof"
+        },
+        "operation_id": "proof-b",
+        "status": "CRITICAL",
+        "writer_id": "B"
+      },
+      {
+        "claim_hash": "sha256:2deadabea432deaf13f60012960c67da9abbb77ce53faa8f0d68163d751faf1b",
+        "entity": {
+          "category": "risk_verdict",
+          "name": "protocol_x"
+        },
+        "epoch_id": "proof-epoch",
+        "evidence": {
+          "source": "proof"
+        },
+        "kind": "mnemon",
+        "operation_id": "proof-a",
+        "phase": "commit",
+        "status": "SAFE",
+        "writer_id": "A"
+      }
+    ],
+    "current": {
+      "claim_hash": "sha256:9cefee55d8e5eda42ce590ad975408efa6b70920d7a49adb941c7504c44374d8",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "proof-epoch",
+      "evidence": {
+        "source": "proof"
+      },
+      "operation_id": "proof-b",
+      "status": "CRITICAL",
+      "writer_id": "B"
+    },
+    "status": "CONTESTED"
+  }
+}

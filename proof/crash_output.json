@@ -1,0 +1,35 @@
+{
+  "claims": [
+    {
+      "claim_hash": "sha256:d47294c300eadb1b00a8d90e1ae684b0c3241fa33ef61ad6a124d584e2300f94",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "epoch-crash",
+      "evidence": {
+        "source": "base",
+        "summary": "critical"
+      },
+      "operation_id": "op-crash",
+      "status": "CRITICAL",
+      "writer_id": "auditor-a"
+    }
+  ],
+  "current": {
+    "claim_hash": "sha256:d47294c300eadb1b00a8d90e1ae684b0c3241fa33ef61ad6a124d584e2300f94",
+    "entity": {
+      "category": "risk_verdict",
+      "name": "protocol_x"
+    },
+    "epoch_id": "epoch-crash",
+    "evidence": {
+      "source": "base",
+      "summary": "critical"
+    },
+    "operation_id": "op-crash",
+    "status": "CRITICAL",
+    "writer_id": "auditor-a"
+  },
+  "status": "UNWITNESSED"
+}

@@ -1,0 +1,9 @@
+# Runtime dependencies verified against the submitted build.
+# `sibyl-memory-client` is the real sponsor runtime; web3 + py-solc-x drive the Base
+# anchor scripts; python-dotenv loads local credentials from .env.local; pytest runs
+# the proof suite.
+sibyl-memory-client==0.8.1
+web3==8.0.0
+py-solc-x==2.0.5
+python-dotenv==1.2.3
+pytest==9.1.1

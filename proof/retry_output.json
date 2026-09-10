@@ -1,0 +1,35 @@
+{
+  "claims": [
+    {
+      "claim_hash": "sha256:0067fa32186694de0700069e9aa469d05681839573ef7bd211ea026c8a0dfd27",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "epoch-r",
+      "evidence": {
+        "source": "base",
+        "summary": "stable"
+      },
+      "operation_id": "op-r",
+      "status": "SAFE",
+      "writer_id": "retry"
+    }
+  ],
+  "current": {
+    "claim_hash": "sha256:0067fa32186694de0700069e9aa469d05681839573ef7bd211ea026c8a0dfd27",
+    "entity": {
+      "category": "risk_verdict",
+      "name": "protocol_x"
+    },
+    "epoch_id": "epoch-r",
+    "evidence": {
+      "source": "base",
+      "summary": "stable"
+    },
+    "operation_id": "op-r",
+    "status": "SAFE",
+    "writer_id": "retry"
+  },
+  "status": "CLEAN"
+}

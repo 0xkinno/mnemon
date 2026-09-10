@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>MNEMON banner</title>
+<style>
+:root{--canvas:#edece7;--ink:#1b1c19;--muted:#6b6f68;--faint:#8d918a;--hairline:#c9c9c1;
+--serif:ui-serif,Georgia,"Iowan Old Style","Palatino Linotype",Palatino,serif;
+--sans:Inter,ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}html,body{margin:0}
+.b{width:1600px;height:520px;background:var(--canvas);color:var(--ink);font-family:var(--sans);
+padding:64px 72px;display:flex;flex-direction:column;justify-content:space-between;border-bottom:1px solid var(--hairline)}
+.top{display:flex;justify-content:space-between;align-items:baseline}
+.brand{font-family:var(--mono);font-size:15px;letter-spacing:.26em;text-transform:uppercase}
+.meta{font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--faint)}
+.mid{display:flex;justify-content:space-between;align-items:flex-end;gap:60px}
+h1{font-family:var(--serif);font-weight:500;font-size:96px;line-height:1.0;letter-spacing:-.02em;margin:0;max-width:14ch}
+.sub{font-size:23px;line-height:1.45;color:#4d514b;max-width:38ch;margin:0}
+.rule{height:1px;background:var(--hairline);margin:34px 0 20px}
+.foot{display:flex;gap:14px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.foot span{border:1px solid var(--hairline);background:#f4f3ee;border-radius:2px;padding:7px 12px}
+</style></head><body>
+<div class="b">
+  <div class="top"><div class="brand">MNEMON</div><div class="meta">MEMORY ASSURANCE FOR AUTONOMOUS SYSTEMS</div></div>
+  <div>
+    <div class="mid">
+      <h1>Memory that can challenge itself.</h1>
+      <p class="sub">Before an autonomous system acts, MNEMON checks whether its current memory is actually witnessed.</p>
+    </div>
+    <div class="rule"></div>
+    <div class="foot">
+      <span>sibyl-memory-client 0.8.1</span>
+      <span>Virtuals ACP job 78185 completed</span>
+      <span>Base Sepolia anchor verified</span>
+      <span>four verdicts · fail closed</span>
+    </div>
+  </div>
+</div>
+</body></html>

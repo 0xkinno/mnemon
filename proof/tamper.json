@@ -1,0 +1,20 @@
+{
+  "claims": [
+    {
+      "claim_hash": "sha256:tampered",
+      "entity": {
+        "category": "risk_verdict",
+        "name": "protocol_x"
+      },
+      "epoch_id": "proof-epoch",
+      "evidence": {
+        "source": "proof"
+      },
+      "operation_id": "proof-b",
+      "status": "CRITICAL",
+      "writer_id": "B"
+    }
+  ],
+  "reason": "current claim hash mismatch",
+  "status": "INVALID"
+}

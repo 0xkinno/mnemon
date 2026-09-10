@@ -1,0 +1,12 @@
+{
+  "tx_hash": "293e4e55ad6bce6fa99a14e5fcb25851bd4c34df3b67073f7fd722d21076996e",
+  "block_number": 46585270,
+  "event": {
+    "entity": "risk_verdict/protocol_x",
+    "epoch": "epoch-clean",
+    "claimHash": "b\"\\x00g\\xfa2\\x18f\\x94\\xde\\x07\\x00\\x06\\x9e\\x9a\\xa4i\\xd0V\\x81\\x83\\x95s\\xef{\\xd2\\x11\\xea\\x02l\\x8a\\r\\xfd'\"",
+    "verdict": "CLEAN",
+    "operationId": "op-clean"
+  },
+  "explorer": "https://sepolia.basescan.org/tx/293e4e55ad6bce6fa99a14e5fcb25851bd4c34df3b67073f7fd722d21076996e"
+}

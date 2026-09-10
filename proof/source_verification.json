@@ -1,0 +1,14 @@
+{
+  "package": "sibyl-memory-client",
+  "version": "0.8.1",
+  "installed_source": ".realvenv/Lib/site-packages/sibyl_memory_client",
+  "warm_schema": "entities UNIQUE(tenant_id, category, name)",
+  "set_entity": "SELECT existing id then INSERT or UPDATE inside storage.transaction()",
+  "cold_schema": "journal_events(id, tenant_id, ts, evaluated, acted, forward, extra)",
+  "cold_write": "write_event uses a separate storage.transaction()",
+  "timestamp_precision": "UTC ISO-8601 text with milliseconds",
+  "conflict_error_exists": true,
+  "update_entity_exists": false,
+  "native_writer_identity": false,
+  "source_locations": {"set_entity":"client.py:887", "get_entity":"client.py:940", "write_event":"client.py:1019", "read_events":"client.py:1056", "entities":"schema.sql:27-36", "journal":"schema.sql:76-87"}
+}
