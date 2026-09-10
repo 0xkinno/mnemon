@@ -530,7 +530,7 @@ node scripts/shots.mjs                    # regenerate the README assets
 
 `npm run build` fails if the rendered snapshot has drifted from `proof/` in any way, if a route in the navbar has no view, if a link points at an unknown route, if a referenced asset is missing, if an executable inline script reappears, if a secret or a raw key-shaped value leaks into client-visible output, if the local database path is exposed to the browser, or if the page reaches for server-side code.
 
-`node scripts/responsive.mjs` drives the bundled headless Chromium across `390x844`, `430x932`, `768x1024`, `1024x1366`, `1440x900` and `1920x1080`, and across all six routes. It fails on horizontal overflow, on anything wider than the viewport, on a control pushed outside it, on text below 12px, on an unlabelled control, and on a view that did not render. It then opens the mobile menu, clicks every navbar link, and runs the first demo control to prove the instrument moves and gates in order.
+`node scripts/responsive.mjs` drives the bundled headless Chromium across `390x844`, `430x932`, `768x1024`, `1024x1366`, `1440x900` and `1920x1080`, and across all six routes. It fails on horizontal overflow, on anything wider than the viewport, on a control pushed outside it, on text below 12px, on an unlabelled control, and on a view that did not render. It then opens the mobile menu, clicks every navbar link, and runs the first demo control to prove the instrument moves and gates in order. Set `MNEMON_BASE_URL` (for example `https://mnemon-ochre.vercel.app`) to run the same checks against the deployment, where the router uses the History API instead of hash mode.
 
 ## Prior Work declaration
 

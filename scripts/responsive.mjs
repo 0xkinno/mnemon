@@ -144,7 +144,12 @@ async function main() {
   await new Promise((done, fail) => { ws.once("open", done); ws.once("error", fail); });
   const cdp = new CDP(ws);
 
-  const home = pathToFileURL(join(ROOT, "app", "index.html")).href;
+  // Default to the local file:// surface. Set MNEMON_BASE_URL (for example
+  // https://mnemon-ochre.vercel.app) to run the same checks against a deployment,
+  // where the router uses the History API instead of hash mode.
+  const remote = process.env.MNEMON_BASE_URL;
+  const home = remote ? remote.replace(/\/$/, "") : pathToFileURL(join(ROOT, "app", "index.html")).href;
+  const urlFor = (route) => remote ? home + route : home + "#" + route;
   const failures = [];
   const results = [];
 
@@ -159,23 +164,25 @@ async function main() {
     return { targetId, sessionId };
   }
 
-  async function goto(sessionId, hash) {
+  async function goto(sessionId, route) {
     // Hash-only navigation is same-document, so Page.loadEventFired never fires.
-    // Navigate, then poll for a rendered view instead of waiting on an event.
-    await cdp.send("Page.navigate", { url: home + hash }, sessionId);
+    // Navigate, then poll for the route to be live and the view to have rendered.
+    await cdp.send("Page.navigate", { url: urlFor(route) }, sessionId);
+    const readRoute = remote
+      ? '(location.pathname.replace(/\\/$/, "") || "/")'
+      : '(location.hash.replace(/^#/, "") || "/")';
     for (let i = 0; i < 60; i++) {
       await sleep(100);
       try {
-        const state = await evaluate(sessionId, `JSON.stringify({
+        const parsed = JSON.parse(await evaluate(sessionId, `JSON.stringify({
           ready: document.readyState,
-          hash: location.hash,
+          route: ${readRoute},
           chars: (document.getElementById("view") || {}).textContent ? document.getElementById("view").textContent.trim().length : 0
-        })`);
-        const parsed = JSON.parse(state);
-        if (parsed.ready === "complete" && parsed.hash === hash && parsed.chars > 0) return;
+        })`));
+        if (parsed.ready === "complete" && parsed.route === route && parsed.chars > 0) return;
       } catch { /* page still swapping contexts */ }
     }
-    throw new Error("route never rendered: " + hash);
+    throw new Error("route never rendered: " + route);
   }
 
   async function evaluate(sessionId, expression) {
@@ -187,7 +194,7 @@ async function main() {
   for (const viewport of VIEWPORTS) {
     const { targetId, sessionId } = await session(viewport);
     for (const route of ROUTES) {
-      await goto(sessionId, "#" + route);
+      await goto(sessionId, route);
       const raw = await evaluate(sessionId, PROBE);
       const probe = typeof raw === "string" ? JSON.parse(raw) : raw;
       const problems = [];
@@ -204,7 +211,7 @@ async function main() {
   }
   // ---------------------------------------------------------------- interaction
   const mobile = await session(VIEWPORTS[0]);
-  await goto(mobile.sessionId, "#/");
+  await goto(mobile.sessionId, "/");
   const menuClosed = await evaluate(mobile.sessionId, `(() => {
     const links = document.getElementById("nav-links");
     const toggle = document.getElementById("nav-toggle");
@@ -235,26 +242,26 @@ async function main() {
 
   // Every navbar link must reach its route and render a view.
   const navSession = await session(VIEWPORTS[4]);
-  await goto(navSession.sessionId, "#/");
+  await goto(navSession.sessionId, "/");
   const hrefs = JSON.parse(await evaluate(navSession.sessionId,
     `JSON.stringify([...document.querySelectorAll("#nav-links a[data-path]")].map(a => a.getAttribute("data-path")))`));
   for (const path of ROUTES) {
     if (!hrefs.includes(path)) { failures.push(`navbar: no link for ${path}`); continue; }
-    await goto(navSession.sessionId, "#/");
+    await goto(navSession.sessionId, "/");
     await evaluate(navSession.sessionId,
       `[...document.querySelectorAll("#nav-links a[data-path]")].find(a => a.getAttribute("data-path") === ${JSON.stringify(path)}).click()`);
     await sleep(400);
     const state = JSON.parse(await evaluate(navSession.sessionId, `JSON.stringify({
-      hash: location.hash, current: document.querySelector('#nav-links a[aria-current="page"]')?.getAttribute("data-path") || null,
+      route: ${remote ? '(location.pathname.replace(/\\/$/, "") || "/")' : '(location.hash.replace(/^#/, "") || "/")'}, current: document.querySelector('#nav-links a[aria-current="page"]')?.getAttribute("data-path") || null,
       chars: document.getElementById("view").textContent.trim().length
     })`));
-    if (state.hash !== "#" + path) failures.push(`navbar: clicking ${path} landed on ${state.hash}`);
+    if (state.route !== path) failures.push(`navbar: clicking ${path} landed on ${state.route}`);
     if (state.chars < 200) failures.push(`navbar: ${path} rendered only ${state.chars} chars`);
     if (state.current !== path) failures.push(`navbar: ${path} is not marked aria-current`);
   }
 
   // The demo instrument has to actually move, and only in order.
-  await goto(navSession.sessionId, "#/demo");
+  await goto(navSession.sessionId, "/demo");
   const demoBefore = JSON.parse(await evaluate(navSession.sessionId, `JSON.stringify({
     cards: document.querySelectorAll("#demo-timeline article").length,
     enabled: [...document.querySelectorAll("#demo-controls-row button:not([disabled]):not([data-action=reset])")].map(b => b.dataset.action),
@@ -288,7 +295,7 @@ async function main() {
   if (demoReset.enabled[0] !== "contention") failures.push("demo: reset did not re-enable the first control");
 
   // Landing CTAs must exist and point at real routes.
-  await goto(navSession.sessionId, "#/");
+  await goto(navSession.sessionId, "/");
   const ctas = JSON.parse(await evaluate(navSession.sessionId, `JSON.stringify(
     [...document.querySelectorAll("#view a.btn[data-path]")].map(a => ({ label: a.textContent.trim(), path: a.getAttribute("data-path") }))
   )`));
