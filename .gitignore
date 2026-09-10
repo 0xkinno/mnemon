@@ -12,3 +12,4 @@ pytest-cache-files-*/
 
 research/
 node_modules/
+.vercel

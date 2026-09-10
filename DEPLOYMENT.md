@@ -2,6 +2,38 @@
 
 MNEMON ships two independent surfaces, and only one of them is deployable to a public host.
 
+## Live
+
+| Item | Value |
+|---|---|
+| Production URL | <https://mnemon-ochre.vercel.app> |
+| Team-scoped URL | <https://mnemon-kinnoskis-projects.vercel.app> |
+| Vercel project | `kinnoskis-projects/mnemon` |
+| Repository | <https://github.com/0xkinno/mnemon> |
+| Framework setting | Other (the static surface, not a Python service) |
+
+The Vercel build runs `node scripts/build_check.mjs` as its build command, so a deployment cannot go out if the page has drifted from `proof/`.
+
+### Environment variables
+
+Nine **non-sensitive** configuration variables are set on the project for Production and Development, so they stay readable and editable in the dashboard:
+
+```text
+BASE_SEPOLIA_RPC_URL
+BASE_CHAIN_ID
+MNEMON_ANCHOR_ADDRESS
+ACP_BUYER_WALLET_ADDRESS
+ACP_BUYER_WALLET_ID
+ACP_PROVIDER_WALLET_ADDRESS
+ACP_PROVIDER_AGENT_ID
+ACP_PROVIDER_SIGNER_SOURCE
+ACP_OFFERING_NAME
+```
+
+They are placeholders for the local proof harness, not inputs to the deployed page — the static surface needs no environment at all. `BASE_PRIVATE_KEY` and `ACP_BUYER_SIGNER_PRIVATE_KEY` are deliberately **not** set on Vercel: the deployment has no signer, never signs, and storing key material as a non-sensitive variable would make it readable in plaintext.
+
+Vercel environment variables are scoped to Production and Development only; the CLI will not create a project-wide Preview variable non-interactively, so Preview is unset.
+
 | Surface | What it is | Deployable |
 |---|---|---|
 | `app/` | Static evidence page. Plain HTML/CSS/JS reading an inlined JSON snapshot. | Yes |

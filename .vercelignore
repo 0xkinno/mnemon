@@ -1,0 +1,13 @@
+# Keep the Vercel upload to the files the static surface actually needs.
+.realvenv/
+.venv/
+node_modules/
+research/
+.runs/
+.real-races/
+.testdata/
+pytest-cache-files-*/
+*.db
+__pycache__/
+# The static surface is not a Python service; pyproject.toml would trigger Python detection.
+pyproject.toml

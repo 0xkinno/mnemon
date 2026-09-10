@@ -15,8 +15,8 @@ MNEMON is a memory-consistency boundary for autonomous systems. It reconciles Si
 
 | Surface | Link |
 |---|---|
-| Live demo | Static evidence surface in [`app/index.html`](app/index.html) — deploy-ready, not yet published |
-| GitHub | `[GITHUB_REPO_URL]` |
+| Live demo | [mnemon-ochre.vercel.app](https://mnemon-ochre.vercel.app) |
+| GitHub | [github.com/0xkinno/mnemon](https://github.com/0xkinno/mnemon) |
 | Demo video | Not published yet |
 | Base contract | [Base Sepolia contract](https://sepolia.basescan.org/address/0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f) |
 | Base transaction | [Verified CLEAN receipt](https://sepolia.basescan.org/tx/0x293e4e55ad6bce6fa99a14e5fcb25851bd4c34df3b67073f7fd722d21076996e) |
@@ -423,6 +423,7 @@ scripts/
   shots.mjs              # regenerates the README assets
   base_anchor.py
   verify_base.py
+  serve_app.py           # local preview for the static surface
 
 app/
   index.html      # static evidence surface (no server, no signer)
@@ -454,6 +455,7 @@ DISCOVERY.md
 EVIDENCE.md
 PROOF.md
 DEPLOYMENT.md
+vercel.json
 README.md
 ```
 
@@ -528,6 +530,7 @@ A verified Base action and exercised Virtuals ACP path are represented only beca
 - 17/17 integrity-audit cases end in `BLOCK` or safe reclassification
 - Production build gate passes (`npm run build`)
 - All four README frames regenerated from the app at one uniform size
+- Static surface deployed to Vercel production ([mnemon-ochre.vercel.app](https://mnemon-ochre.vercel.app))
 - No mock, simulated, or placeholder claim remains on the critical path
 
 
