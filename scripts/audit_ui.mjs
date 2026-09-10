@@ -254,10 +254,24 @@ async function main() {
 
   // A route that does not exist must not silently impersonate the landing page.
   const unknown = await session(VIEWPORTS[1]);
-  await goto(unknown.sessionId, "/definitely-not-a-route");
-  const unknownProbe = JSON.parse(await evaluate(unknown.sessionId, PROBE));
-  if (!/does not exist|not found/i.test(unknownProbe.headings.join(" ") + unknownProbe.brand)) {
-    failures.push("unknown route does not render a not-found view: " + unknownProbe.headings.join(" | "));
+  let unknownProbe = null;
+  try {
+    await goto(unknown.sessionId, "/definitely-not-a-route");
+    unknownProbe = JSON.parse(await evaluate(unknown.sessionId, PROBE));
+  } catch { /* a real host may answer with its own not-found document */ }
+  if (unknownProbe) {
+    if (!/does not exist|not found/i.test(unknownProbe.headings.join(" ") + unknownProbe.brand)) {
+      failures.push("unknown route does not render a not-found view: " + unknownProbe.headings.join(" | "));
+    }
+  } else if (remote) {
+    // Vercel answers an unknown path with its own 404 rather than letting the
+    // router render one, so assert the status instead of the markup.
+    const res = await fetch(remote + "/definitely-not-a-route");
+    if (res.status !== 404) {
+      failures.push("unknown route answered " + res.status + " and rendered no not-found view");
+    }
+  } else {
+    failures.push("unknown route rendered nothing");
   }
   await cdp.send("Target.closeTarget", { targetId: unknown.targetId });
 
