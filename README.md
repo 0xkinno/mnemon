@@ -20,7 +20,8 @@ MNEMON is a memory-consistency boundary for autonomous systems. It reconciles Si
 | Evidence page | [mnemon-ochre.vercel.app/evidence](https://mnemon-ochre.vercel.app/evidence) |
 | Architecture | [mnemon-ochre.vercel.app/architecture](https://mnemon-ochre.vercel.app/architecture) |
 | GitHub | [github.com/0xkinno/mnemon](https://github.com/0xkinno/mnemon) |
-| Demo video | Not published yet |
+| Demo video | [Watch on Youtube](https://youtu.be/8ZW6uylNhOQ?si=ryc3pbrVksh8pqW8) |
+| Article | [Read on Medium](https://medium.com/@ojilerekingsley/mnemon-when-an-agents-memory-disagrees-with-itself-13ceae457c1b) |
 | Base contract | [Base Sepolia contract](https://sepolia.basescan.org/address/0x4e6042c9E85c64CbACA27Da9da1B1B862565a13f) |
 | Base transaction | [Verified CLEAN receipt](https://sepolia.basescan.org/tx/0x293e4e55ad6bce6fa99a14e5fcb25851bd4c34df3b67073f7fd722d21076996e) |
 | Base ACP-resolution anchor | [Verified receipt binding job `78185`](https://sepolia.basescan.org/tx/f6c2ee4127309c46512ea6d52ad85daec06f02c6214f77f919c138a5fd8b5269) |
