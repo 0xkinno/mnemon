@@ -5,7 +5,7 @@
 ![Sibyl Memory](https://img.shields.io/badge/Sibyl%20Memory-load--bearing-111111)
 ![Runtime](https://img.shields.io/badge/Sibyl%20runtime-0.8.1-111111)
 ![ACP](https://img.shields.io/badge/Virtuals%20ACP-verified-111111)
-![License](https://img.shields.io/badge/license-MIT-111111)
+[![License: MIT](https://img.shields.io/badge/license-MIT-111111)](LICENSE)
 
 ![MNEMON banner](assets/banner.png)
 
@@ -29,6 +29,7 @@ MNEMON is a memory-consistency boundary for autonomous systems. It reconciles Si
 | Evidence | [`proof/`](proof/) |
 | Discovery | [`DISCOVERY.md`](DISCOVERY.md) |
 | Deployment | [`DEPLOYMENT.md`](DEPLOYMENT.md) |
+| License | [MIT](LICENSE) |
 
 ## The problem
 
@@ -589,4 +590,6 @@ A verified Base action and exercised Virtuals ACP path are represented only beca
 
 ## License
 
-MIT
+MIT — see [`LICENSE`](LICENSE).
+
+Copyright (c) 2026 Ojilere Kingsley (0xkinno).
